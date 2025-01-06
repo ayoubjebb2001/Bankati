@@ -1,4 +1,3 @@
-
 <?php
 
 
@@ -20,4 +19,12 @@ class User extends Db
         $allUsers = $users->fetchAll(PDO::FETCH_ASSOC);
         return $allUsers;
     }
+    public function getUserbyEmail($email){
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }
+
