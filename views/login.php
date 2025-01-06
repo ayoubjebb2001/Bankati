@@ -26,6 +26,11 @@ require_once '../views/partials/header.php';
           </g>
         </svg>
       </div>
+      <?php if(isset($error['email'])): ?>
+      <div class="mt-2 text-red-500 text-sm">
+        <?= $error['email'] ?>
+      </div>
+      <?php endif; ?>
 
       <div class="mt-6">
         <div class="relative flex items-center">

@@ -30,7 +30,8 @@ class AuthController extends BaseController
                 ]]);
         }else{
             if(password_verify($password, $user['password'] )){
-                $this->render('admin/dashboard', ['title' => 'Dashboard']);
+                $_SESSION['user'] = $user;
+                header('Location: /user/profile');
             }else{
                 $this->render('login', [
                     'title' => 'Login',

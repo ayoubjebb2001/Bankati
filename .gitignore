@@ -1,2 +1,3 @@
 node_modules/
+# Ignore the output css
 public/assets/css/output.css

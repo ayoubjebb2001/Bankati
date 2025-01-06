@@ -14,7 +14,7 @@ class User extends Db
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['email' => $email]);
-        return $stmt->fetch('PDO::FETCH_ASSOC');
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 }
