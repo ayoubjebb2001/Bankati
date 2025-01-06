@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /Bankati/
+    
+    # Skip if file/directory exists in root
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Skip public directory direct access
+    RewriteCond %{REQUEST_URI} !^public/
+    
+    # Rewrite to public directory while preserving path
+    RewriteRule ^(.*)$ public/$1 [L,QSA]
+</IfModule>
