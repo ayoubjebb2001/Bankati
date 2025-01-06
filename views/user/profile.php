@@ -32,119 +32,122 @@
                 <i data-lucide="user" class="w-5 h-5"></i>
                 <span>Profil</span>
             </a>
+            <div class="p-4 border-t border-blue-600/30 mt-auto">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-600/30 flex items-center justify-center">
+                        <i data-lucide="user" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium">Jean Dupont</p>
+                        <p class="text-sm text-blue-200">Client</p>
+                    </div>
+                </div>
+            </div>
         </nav>
     </div>
     <div class="flex-1 p-8">
-            <h2 class="text-2xl font-bold text-gray-800">Mon Profil</h2>
+        <h2 class="text-2xl font-bold text-gray-800">Mon Profil</h2>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-                <!-- Informations Personnelles -->
-                <div class="lg:col-span-2">
-                    <div class="bg-white rounded-lg shadow">
-                        <div class="p-6">
-                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Informations Personnelles</h3>
-                            <form class="space-y-6">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Numéro client</label>
-                                        <input 
-                                            type="text" 
-                                            readonly 
-                                            value="123456789" 
-                                            class="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Nom</label>
-                                        <input 
-                                            type="text" 
-                                            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                                            value="Dupont"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Prénom</label>
-                                        <input 
-                                            type="text" 
-                                            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                                            value="Jean"
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700">Email</label>
-                                        <input 
-                                            type="email" 
-                                            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                                            value="jean.dupont@email.com"
-                                        />
-                                    </div>
-                                </div>
-
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+            <!-- Informations Personnelles -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Informations Personnelles</h3>
+                        <form class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700">account_type</label>
-                                    <input 
-                                        type="text" 
+                                    <label class="block text-sm font-medium text-gray-700">Numéro client</label>
+                                    <input
+                                        type="text"
                                         readonly
-                                        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                                        value="courant"
-                                    />
-                                </div> 
-                                <div class="flex justify-end pt-4">
-                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                                        Sauvegarder les modifications
-                                    </button>
+                                        value="123456789"
+                                        class="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2" />
                                 </div>
-                            </form>
-                        </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Nom</label>
+                                    <input
+                                        type="text"
+                                        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                                        value="Dupont" />
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Prénom</label>
+                                    <input
+                                        type="text"
+                                        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                                        value="Jean" />
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Email</label>
+                                    <input
+                                        type="email"
+                                        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                                        value="jean.dupont@email.com" />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">account_type</label>
+                                <input
+                                    type="text"
+                                    readonly
+                                    class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                                    value="courant" />
+                            </div>
+                            <div class="flex justify-end pt-4">
+                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                    Sauvegarder les modifications
+                                </button>
+                            </div>
+                        </form>
                     </div>
+                </div>
 
-                    <!-- Sécurité -->
-                    <div class="bg-white rounded-lg shadow mt-6">
-                        <div class="p-6">
-                            <h3 class="text-lg font-semibold text-gray-700 mb-4">Sécurité</h3>
-                            <form class="space-y-6">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Mot de passe actuel</label>
-                                    <input 
-                                        type="password" 
-                                        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                                        placeholder="••••••••"
-                                    />
-                                </div>
+                <!-- Sécurité -->
+                <div class="bg-white rounded-lg shadow mt-6">
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Sécurité</h3>
+                        <form class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Mot de passe actuel</label>
+                                <input
+                                    type="password"
+                                    class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                                    placeholder="••••••••" />
+                            </div>
 
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
-                                    <input 
-                                        type="password" 
-                                        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                                        placeholder="••••••••"
-                                    />
-                                </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
+                                <input
+                                    type="password"
+                                    class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                                    placeholder="••••••••" />
+                            </div>
 
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Confirmer le nouveau mot de passe</label>
-                                    <input 
-                                        type="password" 
-                                        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                                        placeholder="••••••••"
-                                    />
-                                </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Confirmer le nouveau mot de passe</label>
+                                <input
+                                    type="password"
+                                    class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                                    placeholder="••••••••" />
+                            </div>
 
-                                <div class="flex justify-end pt-4">
-                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                                        Modifier le mot de passe
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="flex justify-end pt-4">
+                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                    Modifier le mot de passe
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {

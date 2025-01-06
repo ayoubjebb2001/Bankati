@@ -8,8 +8,16 @@ class User extends Db
     {
         parent::__construct();
     }
-    function test(){
+    function test()
+    {
         return $this->conn;
     }
-
+    function getUsers()
+    {
+        $q = "SELECT * FROM users";
+        $users = $this->conn->prepare($q);
+        $users->execute();
+        $allUsers = $users->fetchAll(PDO::FETCH_ASSOC);
+        return $allUsers;
+    }
 }

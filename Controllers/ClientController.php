@@ -12,6 +12,7 @@ class ClientController extends BaseController
     public function showProfile()
     {
         $this->userModel->test();
-        $this->render('user/profile');
+        $users = $this->userModel->getUsers();
+        $this->render('user/profile',["users"=>$users]);
     }
 }
