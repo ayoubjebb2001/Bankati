@@ -12,34 +12,36 @@ class AuthController extends BaseController
         $this->render('login', ['title' => 'Login']);
     }
 
-    public function Signin() {
+    public function Signin()
+    {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        if($email == 'admin@admin.ma' && $password == 'admin') {
+        if ($email == 'admin@admin.ma' && $password == 'admin') {
             header('Location: /admin/home');
         }
 
         $user = $this->userModel->getUserbyEmail($email);
 
-        if(!$user){
+        if (!$user) {
             $this->render('login', [
                 'title' => 'Login',
                 'error' => [
                     'email' => 'Email not found'
-                ]]);
-        }else{
-            if(password_verify($password, $user['password'] )){
+                ]
+            ]);
+        } else {
+            if ($password == $user['password']) {
                 $_SESSION['user'] = $user;
                 header('Location: /user/profile');
-            }else{
+            } else {
                 $this->render('login', [
                     'title' => 'Login',
                     'error' => [
                         'password' => 'Password incorrect'
-                    ]]);
+                    ]
+                ]);
             }
         }
-
     }
 }

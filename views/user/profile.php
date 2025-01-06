@@ -1,5 +1,8 @@
 <?php require_once "../views/partials/header.php" ?>
 
+<!-- <?php var_dump($users);
+        // die();
+        ?> -->
 
 <div class="flex flex-col md:flex-row min-h-screen">
     <!-- Sidebar -->
@@ -38,8 +41,11 @@
                         <i data-lucide="user" class="w-6 h-6"></i>
                     </div>
                     <div>
-                        <p class="font-medium">Jean Dupont</p>
-                        <p class="text-sm text-blue-200">Client</p>
+                        <?php
+                        foreach ($users as $user):
+                        ?>
+                            <p class="font-medium"><?= $user["name"] ?></p>
+                            <p class="text-sm text-blue-200">Client</p>
                     </div>
                 </div>
             </div>
@@ -61,7 +67,7 @@
                                     <input
                                         type="text"
                                         readonly
-                                        value="123456789"
+                                        value="<?= trim($user["id"] . $user["name"][0] . $user["name"][3] . $user["name"][7]) ?>"
                                         class="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2" />
                                 </div>
 
@@ -70,15 +76,7 @@
                                     <input
                                         type="text"
                                         class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                                        value="Dupont" />
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700">Prénom</label>
-                                    <input
-                                        type="text"
-                                        class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                                        value="Jean" />
+                                        value="<?= $user["name"] ?>" />
                                 </div>
 
                                 <div>
@@ -86,17 +84,8 @@
                                     <input
                                         type="email"
                                         class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                                        value="jean.dupont@email.com" />
+                                        value="<?= $user["email"] ?>" />
                                 </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">account_type</label>
-                                <input
-                                    type="text"
-                                    readonly
-                                    class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                                    value="courant" />
                             </div>
                             <div class="flex justify-end pt-4">
                                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
@@ -146,6 +135,7 @@
                 </div>
             </div>
         </div>
+    <?php endforeach ?>
     </div>
 </div>
 
