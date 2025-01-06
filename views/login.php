@@ -37,7 +37,7 @@ require_once '../views/partials/header.php';
       </div>
 
       <div class="mt-12">
-        <button type="button" class="w-full py-2.5 px-4 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+        <button type="submit" name="signin" class="w-full py-2.5 px-4 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
           Sign in
         </button>
 

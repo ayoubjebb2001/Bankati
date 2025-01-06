@@ -12,6 +12,7 @@ Route::setRouter($router);
 // Define routes
 Route::get('/', [AuthController::class, 'showLogin']);
 Route::get('/login', [AuthController::class, 'showLogin']);
+Route::get('/signin',[AuthController::class, 'Signin']);
 
 // Get current URI and method
 $uri = $_SERVER['REQUEST_URI'];
