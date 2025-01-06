@@ -94,6 +94,8 @@
     </style>
     <link rel="stylesheet" href="../public/assets/css/output.css">
     <title>BANKATI - <?= $title ?></title>
+    <link rel="stylesheet" href="assets/css/output.css">
+    <title>BANKATI - <?= $title ?></title>
 </head>
 
 <body class="bg-gray-50">
