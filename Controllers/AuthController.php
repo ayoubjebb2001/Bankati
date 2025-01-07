@@ -37,6 +37,9 @@ class AuthController extends BaseController
             } else {
                 $this->render('login', [
                     'title' => 'Login',
+                    'input' => [
+                        'email' => $email
+                    ],
                     'error' => [
                         'password' => 'Password incorrect'
                     ]
