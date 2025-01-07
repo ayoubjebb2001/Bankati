@@ -17,6 +17,7 @@ Route::setRouter($router);
 Route::get('/', [AuthController::class, 'showLogin']);
 Route::post('/signin', [AuthController::class, 'Signin']);
 Route::get('/admin/home', [AdminController::class, 'showDashboard']);
+Route::get('/admin/clients', [AdminController::class, 'showClients']);
 Route::get('/user/profile', [ClientController::class, 'showProfile']);
 Route::post('/user/profile/modifyprofile', [ClientController::class, 'modifyProfile']);
 // Route::post('/user/profilePSW', [ClientController::class, 'changePassword']);
