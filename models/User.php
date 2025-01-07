@@ -69,14 +69,6 @@ class User extends Db
         return $allClients;
     }
 
-    public function getAccounts($id){
-        $q = "SELECT * FROM accounts WHERE user_id = ?";
-        $accounts = $this->conn->prepare($q);
-        $accounts->execute([$id]);
-        $allAccounts = $accounts->fetchAll(PDO::FETCH_ASSOC);
-        return $allAccounts;
-    }
-
     public function getLastActivity($id){
         $q = "SELECT * FROM transactions JOIN accounts WHERE transactions.account_id = accounts.id AND user_id = ? ORDER BY transactions.created_at DESC LIMIT 1";
         $transaction = $this->conn->prepare($q);
