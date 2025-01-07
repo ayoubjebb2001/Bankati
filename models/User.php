@@ -22,11 +22,20 @@ class User extends Db
         $stmt->execute(['email' => $email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
     public function modifyProf($name, $email, $id)
     {
         $q = "UPDATE users SET name = ?, email = ? WHERE id = ?";
         $modify = $this->conn->prepare($q);
         $modify->execute([$name, $email, intval($id)]);
         return $modify;
+    }
+
+    public function getClients(){
+        $q = "SELECT * FROM users";
+        $clients = $this->conn->prepare($q);
+        $clients->execute();
+        $allClients = $clients->fetchAll(PDO::FETCH_ASSOC);
+        return $allClients;
     }
 }

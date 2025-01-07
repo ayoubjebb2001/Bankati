@@ -11,6 +11,16 @@ class AdminController extends BaseController
 
     public function showDashboard()
     {
-        $this->render('admin/dashboard', ['title' => 'Dashboard']);
+        $this->render('admin/dashboard', [
+            'title' => 'Dashboard'
+    ]);
+    }
+
+    public function showClients(){
+        $clients = $this->userModel->getClients();
+        $this->render('admin/clients', [
+            'title' => 'Clients',
+            'clients' => $clients
+        ]);
     }
 }
