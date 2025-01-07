@@ -60,14 +60,14 @@
                 <div class="bg-white rounded-lg shadow">
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-gray-700 mb-4">Informations Personnelles</h3>
-                        <form class="space-y-6">
+                        <form class="space-y-6" action="profile/modifyprofile" method="post">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">Numéro client</label>
                                     <input
                                         type="text"
                                         readonly
-                                        value="<?= trim($user["id"] . $user["name"][0] . $user["name"][3] . $user["name"][7]) ?>"
+                                        value="<?= $user["id"] . $user["name"][0] . $user["name"][1] ?>"
                                         class="mt-1 block w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2" />
                                 </div>
 
@@ -75,6 +75,7 @@
                                     <label class="block text-sm font-medium text-gray-700">Nom</label>
                                     <input
                                         type="text"
+                                        name="name"
                                         class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
                                         value="<?= $user["name"] ?>" />
                                 </div>
@@ -83,12 +84,13 @@
                                     <label class="block text-sm font-medium text-gray-700">Email</label>
                                     <input
                                         type="email"
+                                        name="email"
                                         class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
                                         value="<?= $user["email"] ?>" />
                                 </div>
                             </div>
                             <div class="flex justify-end pt-4">
-                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                <button type="submit" name="info" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                                     Sauvegarder les modifications
                                 </button>
                             </div>
@@ -100,7 +102,7 @@
                 <div class="bg-white rounded-lg shadow mt-6">
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-gray-700 mb-4">Sécurité</h3>
-                        <form class="space-y-6">
+                        <form class="space-y-6" action="profilePSW" method="post">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Mot de passe actuel</label>
                                 <input

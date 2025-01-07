@@ -12,8 +12,18 @@ class ClientController extends BaseController
     public function showProfile()
     {
         // $this->userModel->test();
-        $id= $_SESSION['user']['id'];
+        $id = $_SESSION['user']['id'];
         $users = $this->userModel->getUser($id);
         $this->render('user/profile', ["users" => $users]);
+    }
+    function modifyProfile()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["info"])) {
+            $id = $_SESSION['user']['id'];
+            $name = $_POST["name"];
+            $email = $_POST["email"];
+            $this->userModel->modifyProf($name, $email, $id);
+            header("location: /user/profile");
+        }
     }
 }
