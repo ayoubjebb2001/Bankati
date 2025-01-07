@@ -86,76 +86,54 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <!-- Client 1 -->
+                            <?php foreach($clients as $client): ?>
                             <tr class="hover:bg-gray-50">
                                 <td class="p-3">
                                     <div class="flex items-center">
-                                        <img src="/api/placeholder/40/40" alt="Thomas Robert" class="w-10 h-10 rounded-full">
+                                        <img src="www.placeholder.co/40/40" alt="Thomas Robert" class="w-10 h-10 rounded-full">
                                         <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">Thomas Robert</div>
-                                            <div class="text-sm text-gray-500">ID: #45789</div>
+                                            <div class="text-sm font-medium text-gray-900"><?=$client['name'] ?></div>
+                                            <div class="text-sm text-gray-500">ID: #<?=$client['id']?> </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="p-3">
-                                    <div class="text-sm text-gray-900">thomas@email.com</div>
-                                    <div class="text-sm text-gray-500">06 12 34 56 78</div>
+                                    <div class="text-sm text-gray-900"><?=$client['email'] ?></div>
+                                    <div class="text-sm text-gray-500"><?=$client['phone'] ?></div>
                                 </td>
                                 <td class="p-3">
-                                    <div class="text-sm text-gray-900">2 comptes</div>
-                                    <div class="text-sm text-gray-500">Courant, Épargne</div>
+                                    <?php if(count($client['accounts']) > 1): ?>
+                                    <div class="text-sm text-gray-900"> <?=count($client['accounts'])?> comptes</div>
+                                    <div class="text-sm text-gray-500">
+                                         <?php foreach($client['accounts'] as $account): ?>
+                                            <?=$account['account_type'];
+                                            endforeach ?>
+                                    </div>
+                                    <?php elseif(count($client['accounts']) > 0):?>
+                                    <div class="text-sm text-gray-900"> 1 compte</div>
+                                    <div class="text-sm text-gray-500"><?=$client['accounts'][0]['account_type'] ;?></div>
+                                    <?php else: ?>
+                                    <div class="text-sm text-gray-900">Pas de compte</div>
+                                    <?php endif ?>
                                 </td>
                                 <td class="p-3">
+                                    <?php if($client['status'] == 'actif'): ?>
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                         Actif
                                     </span>
-                                </td>
-                                <td class="p-3">
-                                    <div class="text-sm text-gray-900">Il y a 2 heures</div>
-                                    <div class="text-sm text-gray-500">Virement sortant</div>
-                                </td>
-                                <td class="p-3">
-                                    <div class="flex space-x-2">
-                                        <button class="text-blue-600 hover:text-blue-900">
-                                            <i data-lucide="eye" class="w-5 h-5"></i>
-                                        </button>
-                                        <button class="text-gray-600 hover:text-gray-900">
-                                            <i data-lucide="edit" class="w-5 h-5"></i>
-                                        </button>
-                                        <button class="text-red-600 hover:text-red-900">
-                                            <i data-lucide="lock" class="w-5 h-5"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- Client 2 -->
-                            <tr class="hover:bg-gray-50">
-                                <td class="p-3">
-                                    <div class="flex items-center">
-                                        <img src="/api/placeholder/40/40" alt="Marie Dubois" class="w-10 h-10 rounded-full">
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">Marie Dubois</div>
-                                            <div class="text-sm text-gray-500">ID: #45790</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="p-3">
-                                    <div class="text-sm text-gray-900">marie@email.com</div>
-                                    <div class="text-sm text-gray-500">06 98 76 54 32</div>
-                                </td>
-                                <td class="p-3">
-                                    <div class="text-sm text-gray-900">1 compte</div>
-                                    <div class="text-sm text-gray-500">Courant</div>
-                                </td>
-                                <td class="p-3">
+                                    <?php elseif($client['status'] == 'inactif'): ?>
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                        Inactif
+                                    </span>
+                                    <?php elseif($client['status'] == 'en attente'): ?>
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
                                         En attente
                                     </span>
+                                    <?php endif ?>
                                 </td>
                                 <td class="p-3">
-                                    <div class="text-sm text-gray-900">Hier</div>
-                                    <div class="text-sm text-gray-500">Création compte</div>
+                                    <div class="text-sm text-gray-900"><?=$client['last_activity']['date'] ?>  </div>
+                                    <div class="text-sm text-gray-500"><?=$client['last_activity']['type'] ?></div>
                                 </td>
                                 <td class="p-3">
                                     <div class="flex space-x-2">
@@ -165,12 +143,19 @@
                                         <button class="text-gray-600 hover:text-gray-900">
                                             <i data-lucide="edit" class="w-5 h-5"></i>
                                         </button>
+                                        <?php if($client['status'] == 'actif'): ?>
+                                        <button class="text-red-600 hover:text-red-900">
+                                            <i data-lucide="lock" class="w-5 h-5"></i>
+                                        </button>
+                                        <?php elseif($client['status'] == 'en attente' || $client['status'] == 'inactif'): ?>
                                         <button class="text-green-600 hover:text-green-900">
                                             <i data-lucide="check-circle" class="w-5 h-5"></i>
                                         </button>
+                                        <?php endif ?>
                                     </div>
                                 </td>
                             </tr>
+                            <?php endforeach ?>
                         </tbody>
                     </table>
 
