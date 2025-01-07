@@ -16,6 +16,13 @@ class ClientController extends BaseController
         $users = $this->userModel->getUser($id);
         $this->render('user/profile', ["users" => $users]);
     }
+    public function showAccounts()
+    {
+        $id = $_SESSION['user']['id'];
+        $users = $this->userModel->getUser($id);
+        $accounts = $this->userModel->getAccounts($id);
+        $this->render('user/Accounts', ["users" => $users, "accounts" => $accounts]);
+    }
     function modifyProfile()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["info"])) {
@@ -25,5 +32,26 @@ class ClientController extends BaseController
             $this->userModel->modifyProf($name, $email, $id);
             header("location: /user/profile");
         }
+    }
+    function changePassword()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["psw"])) {
+            $id = $_SESSION['user']['id'];
+            $currentPass = $_POST["psw1"];
+            $newPass = $_POST["psw2"];
+            $newPassCheck = $_POST["psw3"];
+            if (!empty($currentPass) && !empty($newPass) && !empty($newPassCheck)) {
+                $pass = $this->userModel->checkPassword($currentPass, $id);
+                if (!empty($pass)  && $newPass == $newPassCheck) {
+                    $this->userModel->changePass($newPass, $id);
+                    header("location: /user/profile");
+                    exit;
+                } else {
+                    $message = "wrong password";
+                    header("Location: /user/profile" . "?" . $message);
+                }
+            }
+        }
+        // echo $currentPass . $newPass . $newPassCheck;
     }
 }

@@ -1,21 +1,21 @@
-<?php require_once "../views/partials/header.php" ?>
+<?php require_once "../views/partials/header.php";
 
-<!-- <?php var_dump($users);
-        // die();
-        ?> -->
+// var_dump($_GET);
+?>
+
 
 <div class="flex flex-col md:flex-row min-h-screen">
     <!-- Sidebar -->
     <div class="w-full md:w-1/5 bg-gradient-to-b from-blue-800 to-blue-700 text-white shadow-xl" id="sidebar">
         <div class="p-8">
-            <h1 class="text-2xl font-bold tracking-tight animate-fade-in">Ma Banque</h1>
+            <h1 class="text-2xl font-bold tracking-tight animate-fade-in">BANKATI</h1>
         </div>
         <nav class="mt-6">
             <a href="index.html" class="nav-link flex items-center w-full p-4 space-x-3  hover:bg-blue-600/30">
                 <i data-lucide="wallet" class="w-5 h-5"></i>
                 <span>Tableau de bord</span>
             </a>
-            <a href="compte.html" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
+            <a href="/user/myAccounts" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
                 <i data-lucide="credit-card" class="w-5 h-5"></i>
                 <span>Mes comptes</span>
             </a>
@@ -102,11 +102,12 @@
                 <div class="bg-white rounded-lg shadow mt-6">
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-gray-700 mb-4">Sécurité</h3>
-                        <form class="space-y-6" action="profilePSW" method="post">
+                        <form class="space-y-6" action="profile/profilePSW" method="post">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Mot de passe actuel</label>
                                 <input
                                     type="password"
+                                    name="psw1"
                                     class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
                                     placeholder="••••••••" />
                             </div>
@@ -115,6 +116,7 @@
                                 <label class="block text-sm font-medium text-gray-700">Nouveau mot de passe</label>
                                 <input
                                     type="password"
+                                    name="psw2"
                                     class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
                                     placeholder="••••••••" />
                             </div>
@@ -123,14 +125,35 @@
                                 <label class="block text-sm font-medium text-gray-700">Confirmer le nouveau mot de passe</label>
                                 <input
                                     type="password"
+                                    name="psw3"
                                     class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
                                     placeholder="••••••••" />
                             </div>
 
                             <div class="flex justify-end pt-4">
-                                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                <button type="submit" name="psw" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                                     Modifier le mot de passe
                                 </button>
+                            </div>
+                            <div class="">
+                                <?php if (isset($_GET["wrong_password"])) {
+                                    echo "
+                                    <div style='
+                                        color: #fff;
+                                        background-color: #e74c3c;
+                                        border: 1px solid #c0392b;
+                                        border-radius: 5px;
+                                        padding: 10px 15px;
+                                        margin: 10px 0;
+                                        font-family: Arial, sans-serif;
+                                        font-size: 14px;
+                                        text-align: center;
+                                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                                    '>
+                                        <strong>Error:</strong> The password you entered is incorrect. Please try again.
+                                    </div>";
+                                }
+                                ?>
                             </div>
                         </form>
                     </div>

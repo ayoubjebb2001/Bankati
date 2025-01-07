@@ -19,7 +19,8 @@ Route::post('/signin', [AuthController::class, 'Signin']);
 Route::get('/admin/home', [AdminController::class, 'showDashboard']);
 Route::get('/user/profile', [ClientController::class, 'showProfile']);
 Route::post('/user/profile/modifyprofile', [ClientController::class, 'modifyProfile']);
-// Route::post('/user/profilePSW', [ClientController::class, 'changePassword']);
+Route::post('/user/profile/profilePSW', [ClientController::class, 'changePassword']);
+Route::get('/user/myAccounts', [ClientController::class, 'showAccounts']);
 
 
 
