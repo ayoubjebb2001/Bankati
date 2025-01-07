@@ -13,7 +13,8 @@ require_once '../views/partials/header.php';
       </div>
 
       <div class="relative flex items-center">
-        <input name="email" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter email" />
+        <input name="email" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter email" 
+        value="<?=$input['email'] ?? '';?>"/>
         <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2" viewBox="0 0 682.667 682.667">
           <defs>
             <clipPath id="a" clipPathUnits="userSpaceOnUse">
@@ -26,10 +27,12 @@ require_once '../views/partials/header.php';
           </g>
         </svg>
       </div>
-      <?php if(isset($error['email'])): ?>
-      <div class="mt-2 text-red-500 text-sm">
-        <?= $error['email'] ?>
-      </div>
+      <?php if (isset($error['email'])): ?>
+        <div class="mt-2 text-red-500 text-sm font-semibold ">
+          <?php echo $error['email'];
+          unset($error['email']);
+          ?>
+        </div>
       <?php endif; ?>
 
       <div class="mt-6">
@@ -40,6 +43,12 @@ require_once '../views/partials/header.php';
           </svg>
         </div>
       </div>
+      <?php if (isset($error['password'])): ?>
+        <div class="mt-2 text-red-500 text-sm font-semibold">
+          <?php echo $error['password'];
+          unset($error['password']); ?>
+        </div>
+      <?php endif; ?>
 
       <div class="mt-12">
         <button type="submit" name="signin" class="w-full py-2.5 px-4 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
