@@ -3,10 +3,48 @@
 class ClientController extends BaseController
 {
     private $userModel;
+    private $accountModel;
     public function __construct()
     {
 
         $this->userModel = new User();
+        $this->accountModel = new Account();
+    }
+
+    public function index(){
+        $clients = $this->userModel->getClients();
+        foreach($clients as &$client){
+            $accounts = $this->userModel->getAccounts($client['id']);
+            $client['accounts'] = $accounts;
+            $lastActivity = $this->userModel->getLastActivity($client['id']);
+            $client['last_activity'] = $lastActivity;
+        }
+        $this->render('admin/clients', [
+            'title' => 'Clients',
+            'clients' => $clients
+        ]);
+    }
+
+    public function add(){
+        if ($_SERVER["REQUEST_METHOD"] == "POST" ) {
+            $name = $_POST["firstname"]. " " . $_POST["lastname"];
+            $email = $_POST["email"];
+            $phone = $_POST["phone"];
+            $address = $_POST["address"];
+            $accountType = $_POST["account_type"];
+            $password = "123456";
+
+
+            $user_id = $this->userModel->create($name, $email, $phone, $address, $password);
+            if($accountType== "both"){
+                $this->accountModel->create("epargne",$user_id);
+                $this->accountModel->create("courant",$user_id);
+            }
+            else{
+                $this->accountModel->create($accountType,$user_id);
+            }
+            header("Location: /clients");
+        }
     }
 
     public function showProfile()

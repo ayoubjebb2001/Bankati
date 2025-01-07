@@ -22,7 +22,7 @@ function logout() {
     // Afficher un modal de confirmation
     if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
         // Rediriger vers la page de login
-        window.location.href = 'login.html';
+        window.location.href = '/logout';
     }
 }
 
@@ -36,9 +36,16 @@ document.addEventListener('click', function (event) {
         document.getElementById('profileChevron').classList.remove('rotate-180');
     }
 });
-function toggleAddClientModal() {
+function toggleAddClientModal(isEdit = false) {
     const modal = document.getElementById('addClientModal');
     modal.classList.toggle('hidden');
+    if(isEdit) {
+        document.getElementById('ModalTitle').innerText = 'Modifier le client';
+        document.getElementById('addClientForm').action = '/clients/edit';
+    } else {
+        document.getElementById('ModalTitle').innerText = 'Ajouter un client';
+        document.getElementById('addClientForm').action = '/clients/add';
+    }
 }
 
 function submitAddClientForm() {
@@ -47,7 +54,9 @@ function submitAddClientForm() {
         // Traitement du formulaire ici
         alert('Client ajouté avec succès !');
         toggleAddClientModal();
+        form.submit();
     } else {
         form.reportValidity();
     }
+
 }

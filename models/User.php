@@ -1,11 +1,18 @@
 <?php
 
-
 class User extends Db
 {
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function create($name, $email, $phone, $address, $password)
+    {
+        $q = "INSERT INTO users (name, email, phone, address, password) VALUES (?, ?, ?, ?, ?)";
+        $create = $this->conn->prepare($q);
+        $create->execute([$name, $email, $phone, $address, $password]);
+        return $this->conn->lastInsertId();
     }
     function getUser($id)
     {
@@ -86,21 +93,21 @@ class User extends Db
         $lastAccount = $account->fetch(PDO::FETCH_ASSOC);
 
         // if the user has no account , return the user's registration date
-        if(!$lastAccount){
+        if($lastAccount == false){
             $lastActivity = [
                 'date' => $accountCreated['created_at'],
                 'type' => 'Creation de compte utilisateur'
             ];
         }
         // if the user has no transaction , return the account's creation date
-        if(!$lastTransaction){
+        elseif($lastTransaction == false){
             $lastActivity = [
                 'date' => $lastAccount['created_at'],
                 'type' => 'Ouverture de compte bancaire'
             ];
         }
         // if the user has transaction and account , return the last transaction 
-        if($lastTransaction && $lastAccount){
+        else{
             $lastActivity = [
                 'date' => $lastTransaction['created_at'],
                 'type' => $lastTransaction['transaction_type']

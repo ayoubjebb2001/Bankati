@@ -86,75 +86,75 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <?php foreach($clients as $client): ?>
-                            <tr class="hover:bg-gray-50">
-                                <td class="p-3">
-                                    <div class="flex items-center">
-                                        <img src="www.placeholder.co/40/40" alt="Thomas Robert" class="w-10 h-10 rounded-full">
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900"><?=$client['name'] ?></div>
-                                            <div class="text-sm text-gray-500">ID: #<?=$client['id']?> </div>
+                            <?php foreach ($clients as $client): ?>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="p-3">
+                                        <div class="flex items-center">
+                                            <img src="www.placeholder.co/40/40" alt="Thomas Robert" class="w-10 h-10 rounded-full">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900" id="fullName"><?= $client['name'] ?></div>
+                                                <div class="text-sm text-gray-500">ID: #<?= $client['id'] ?> </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="p-3">
-                                    <div class="text-sm text-gray-900"><?=$client['email'] ?></div>
-                                    <div class="text-sm text-gray-500"><?=$client['phone'] ?></div>
-                                </td>
-                                <td class="p-3">
-                                    <?php if(count($client['accounts']) > 1): ?>
-                                    <div class="text-sm text-gray-900"> <?=count($client['accounts'])?> comptes</div>
-                                    <div class="text-sm text-gray-500">
-                                         <?php foreach($client['accounts'] as $account): ?>
-                                            <?=$account['account_type'];
-                                            endforeach ?>
-                                    </div>
-                                    <?php elseif(count($client['accounts']) > 0):?>
-                                    <div class="text-sm text-gray-900"> 1 compte</div>
-                                    <div class="text-sm text-gray-500"><?=$client['accounts'][0]['account_type'] ;?></div>
-                                    <?php else: ?>
-                                    <div class="text-sm text-gray-900">Pas de compte</div>
-                                    <?php endif ?>
-                                </td>
-                                <td class="p-3">
-                                    <?php if($client['status'] == 'actif'): ?>
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Actif
-                                    </span>
-                                    <?php elseif($client['status'] == 'inactif'): ?>
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                        Inactif
-                                    </span>
-                                    <?php elseif($client['status'] == 'en attente'): ?>
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                        En attente
-                                    </span>
-                                    <?php endif ?>
-                                </td>
-                                <td class="p-3">
-                                    <div class="text-sm text-gray-900"><?=$client['last_activity']['date'] ?>  </div>
-                                    <div class="text-sm text-gray-500"><?=$client['last_activity']['type'] ?></div>
-                                </td>
-                                <td class="p-3">
-                                    <div class="flex space-x-2">
-                                        <button class="text-blue-600 hover:text-blue-900">
-                                            <i data-lucide="eye" class="w-5 h-5"></i>
-                                        </button>
-                                        <button class="text-gray-600 hover:text-gray-900">
-                                            <i data-lucide="edit" class="w-5 h-5"></i>
-                                        </button>
-                                        <?php if($client['status'] == 'actif'): ?>
-                                        <button class="text-red-600 hover:text-red-900">
-                                            <i data-lucide="lock" class="w-5 h-5"></i>
-                                        </button>
-                                        <?php elseif($client['status'] == 'en attente' || $client['status'] == 'inactif'): ?>
-                                        <button class="text-green-600 hover:text-green-900">
-                                            <i data-lucide="check-circle" class="w-5 h-5"></i>
-                                        </button>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="text-sm text-gray-900" id="email"><?= $client['email'] ?></div>
+                                        <div class="text-sm text-gray-500" id="phone"><?= $client['phone'] ?></div>
+                                    </td>
+                                    <td class="p-3">
+                                        <?php if (count($client['accounts']) > 1): ?>
+                                            <div class="text-sm text-gray-900"> <?= count($client['accounts']) ?> comptes</div>
+                                            <div class="text-sm text-gray-500">
+                                                <?php foreach ($client['accounts'] as $account): ?>
+                                                <?= $account['account_type'];
+                                                endforeach ?>
+                                            </div>
+                                        <?php elseif (count($client['accounts']) > 0): ?>
+                                            <div class="text-sm text-gray-900"> 1 compte</div>
+                                            <div class="text-sm text-gray-500"><?= $client['accounts'][0]['account_type']; ?></div>
+                                        <?php else: ?>
+                                            <div class="text-sm text-gray-900">Pas de compte</div>
                                         <?php endif ?>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td class="p-3">
+                                        <?php if ($client['status'] == 'actif'): ?>
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                Actif
+                                            </span>
+                                        <?php elseif ($client['status'] == 'inactif'): ?>
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                Inactif
+                                            </span>
+                                        <?php elseif ($client['status'] == 'en attente'): ?>
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                En attente
+                                            </span>
+                                        <?php endif ?>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="text-sm text-gray-900"><?= $client['last_activity']['date'] ?> </div>
+                                        <div class="text-sm text-gray-500"><?= $client['last_activity']['type'] ?></div>
+                                    </td>
+                                    <td class="p-3">
+                                        <div class="flex space-x-2">
+                                            <button class="text-blue-600 hover:text-blue-900">
+                                                <i data-lucide="eye" class="w-5 h-5"></i>
+                                            </button>
+                                            <button onclick="toggleAddClientModal(true)" class="text-gray-600 hover:text-gray-900">
+                                                <i data-lucide="edit" class="w-5 h-5"></i>
+                                            </button>
+                                            <?php if ($client['status'] == 'actif'): ?>
+                                                <button class="text-red-600 hover:text-red-900">
+                                                    <i data-lucide="lock" class="w-5 h-5"></i>
+                                                </button>
+                                            <?php elseif ($client['status'] == 'en attente' || $client['status'] == 'inactif'): ?>
+                                                <button class="text-green-600 hover:text-green-900">
+                                                    <i data-lucide="check-circle" class="w-5 h-5"></i>
+                                                </button>
+                                            <?php endif ?>
+                                        </div>
+                                    </td>
+                                </tr>
                             <?php endforeach ?>
                         </tbody>
                     </table>
@@ -166,7 +166,7 @@
                             <div class="bg-white rounded-lg shadow-xl">
                                 <!-- Modal Header -->
                                 <div class="flex justify-between items-center p-6 border-b">
-                                    <h3 class="text-lg font-semibold text-gray-900">Ajouter un nouveau client</h3>
+                                    <h3 class="text-lg font-semibold text-gray-900" id="ModalTitle">Ajouter un nouveau client</h3>
                                     <button onclick="toggleAddClientModal()" class="text-gray-400 hover:text-gray-500">
                                         <i data-lucide="x" class="w-6 h-6"></i>
                                     </button>
@@ -174,7 +174,7 @@
 
                                 <!-- Modal Body -->
                                 <div class="p-6">
-                                    <form id="addClientForm" class="space-y-6">
+                                    <form id="addClientForm" class="space-y-6" method="post" action="./add">
                                         <!-- Informations personnelles -->
                                         <div>
                                             <h4 class="text-base font-medium text-gray-900 mb-4">Informations personnelles</h4>
@@ -200,6 +200,7 @@
                                                 <div>
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Nom *</label>
                                                     <input
+                                                        name="lastname"
                                                         type="text"
                                                         required
                                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -208,26 +209,10 @@
                                                 <div>
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Prénom *</label>
                                                     <input
+                                                        name="firstname"
                                                         type="text"
                                                         required
                                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                                </div>
-
-                                                <div>
-                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Date de naissance *</label>
-                                                    <input
-                                                        type="date"
-                                                        required
-                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                                </div>
-
-                                                <div>
-                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nationalité *</label>
-                                                    <select required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                                        <option value="">Sélectionner</option>
-                                                        <option value="fr">Française</option>
-                                                        <option value="other">Autre</option>
-                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -239,6 +224,7 @@
                                                 <div>
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
                                                     <input
+                                                        name="email"
                                                         type="email"
                                                         required
                                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -247,6 +233,7 @@
                                                 <div>
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone *</label>
                                                     <input
+                                                        name="phone"
                                                         type="tel"
                                                         required
                                                         pattern="[0-9]{10}"
@@ -256,23 +243,7 @@
                                                 <div class="md:col-span-2">
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Adresse *</label>
                                                     <input
-                                                        type="text"
-                                                        required
-                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                                </div>
-
-                                                <div>
-                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Code postal *</label>
-                                                    <input
-                                                        type="text"
-                                                        required
-                                                        pattern="[0-9]{5}"
-                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                                </div>
-
-                                                <div>
-                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Ville *</label>
-                                                    <input
+                                                        name="address"
                                                         type="text"
                                                         required
                                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -286,7 +257,7 @@
                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 <div>
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Type de compte *</label>
-                                                    <select required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                                    <select required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" name="account_type">
                                                         <option value="">Sélectionner</option>
                                                         <option value="courant">Compte Courant</option>
                                                         <option value="epargne">Compte Épargne</option>
@@ -294,14 +265,6 @@
                                                     </select>
                                                 </div>
 
-                                                <div>
-                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Conseiller assigné</label>
-                                                    <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                                        <option value="">Sélectionner</option>
-                                                        <option value="1">Marc Dubois</option>
-                                                        <option value="2">Sophie Martin</option>
-                                                    </select>
-                                                </div>
                                             </div>
                                         </div>
 
