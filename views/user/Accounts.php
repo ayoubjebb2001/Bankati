@@ -108,10 +108,10 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
-                            <button class="group flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg transition-all duration-200 hover:bg-blue-600 hover:text-white">
+                            <a href="/user/myAccounts/depots?id=<?= $account['id'] ?>" class="group flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg transition-all duration-200 hover:bg-blue-600 hover:text-white">
                                 <i data-lucide="plus-circle" class="w-5 h-5 mr-2 transition-transform duration-200 group-hover:rotate-90"></i>
                                 Alimenter
-                            </button>
+                            </a>
                             <button class="group flex items-center justify-center p-3 text-purple-600 border border-purple-600 rounded-lg transition-all duration-200 hover:bg-purple-600 hover:text-white">
                                 <i data-lucide="download" class="w-5 h-5 mr-2 transition-transform duration-200 group-hover:translate-y-1"></i>
                                 Relevé
@@ -132,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-            <?php endforeach ?> 
+            <?php endforeach ?>
 
             <!-- Savings Account - Similar styling -->
         </div>

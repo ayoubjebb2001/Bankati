@@ -52,4 +52,10 @@ class User extends Db
         $accounts = $modify->fetchAll(PDO::FETCH_ASSOC);
         return $accounts;
     }
+    public function addMoney($money, $id)
+    {
+        $q = "UPDATE accounts SET balance = balance+? WHERE id= ?";
+        $addMoney = $this->conn->prepare($q);
+        return $addMoney->execute([$money, $id]);
+    }
 }

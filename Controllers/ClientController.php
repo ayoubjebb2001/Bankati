@@ -54,4 +54,22 @@ class ClientController extends BaseController
         }
         // echo $currentPass . $newPass . $newPassCheck;
     }
+    public function depot()
+    {
+        $id = $_SESSION['user']['id'];
+        $compteID = $_GET["id"];
+        $users = $this->userModel->getUser($id);
+        $this->render('user/depot', ["users" => $users, "compteID" => $compteID]);
+    }
+    public function stockMoney()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["depot"])) {
+            $id = $_POST["id"];
+            $money = $_POST["money"];
+            if ($money >= 0.01) {
+                $this->userModel->addMoney($money, $id);
+                header("Location: /user/myAccounts");
+            }
+        }
+    }
 }
