@@ -18,7 +18,7 @@ class AuthController extends BaseController
         $password = $_POST['password'];
 
         if ($email == 'admin@admin.ma' && $password == 'admin') {
-            header('Location: /admin/home');
+            header('Location: /admin');
         }
 
         $user = $this->userModel->getUserbyEmail($email);
