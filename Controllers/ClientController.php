@@ -99,6 +99,7 @@ class ClientController extends BaseController
         $id = $_SESSION['user']['id'];
         $compteID = $_GET["id"];
         $users = $this->userModel->getUser($id);
+
         $this->render('user/depot', ["users" => $users, "compteID" => $compteID]);
     }
     public function stockMoney()
@@ -127,7 +128,7 @@ class ClientController extends BaseController
             $myMoney = $_POST["myMoney"];
             $id = $_POST["compteID"];
             if ($myMoney - $amount >= 0) {
-                $this->userModel->extractMoney($amount, $id);
+                $this->accountModel->makeWithdrawal($id, $amount);
                 header("Location: /user/myAccounts");
             } else {
                 header("Location: /user/myAccounts");
