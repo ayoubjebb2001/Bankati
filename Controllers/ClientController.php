@@ -103,4 +103,18 @@ class ClientController extends BaseController
         $users = $this->userModel->getUser($id);
         $this->render('user/virement', ["id" => $id, "users" => $users, "accounts" => $accounts]);
     }
+    public function virement()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["vers"])) {
+            $sender = $_POST["first"];
+            $reciever = $_POST["second"];
+            $money = $_POST["montant"];
+            if ($sender == "al" || $sender == "all2" || $reciever == "al" || $reciever == "all2") {
+                header("Location: /user/virements");
+            } else {
+                $this->userModel->virement($sender, $reciever, $money);
+                header("Location: /user/virements?message=the money has converted successfuly");
+            }
+        }
+    }
 }
