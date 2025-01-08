@@ -94,36 +94,36 @@
     <!-- Enhanced Main Content -->
     <div class="flex-1 p-8 fade-in">
         <h2 class="text-3xl font-bold text-gray-800 mb-8">Effectuer un virement</h2>
-
         <!-- Enhanced Transfer Form -->
         <div class="bg-white p-8 rounded-xl shadow-lg hover-scale">
-            <form class="space-y-6" id="transferForm">
+            <form class="space-y-6" id="transferForm" action="/user/virements/send" method="post">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-gray-700">Compte à débiter</label>
                         <select id="first" name="first" class="w-full rounded-lg border-gray-200 p-3 transition-colors duration-200 focus:border-blue-500 focus:ring focus:ring-blue-200">
                             <option value="al">choose Compte à débiter</option>
+                            <!-- <input type="text" name="balance1" class="hidden" value="<?php $account["balance"] ?>"> -->
                             <?php foreach ($accounts as $account): ?>
                                 <?php
                                 if ($account["account_status"] == "actif") {
                                     echo "<option value='" . $account["id"] . "'>";
-                                    echo $account["id"];
+                                    echo $account["id"] . " " . $account["account_type"];
                                     echo "</option>";
                                 }
                                 ?>
                             <?php endforeach ?>
                         </select>
                     </div>
-
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-gray-700">Bénéficiaire</label>
                         <select name="second" id="second" class="w-full rounded-lg border-gray-200 p-3 transition-colors duration-200 focus:border-blue-500 focus:ring focus:ring-blue-200">
                             <option value="all2">choose Bénéficiaire</option>
                             <?php foreach ($accounts as $account): ?>
+                                <!-- <input type="text" name="balance2" class="hidden" value="<?php $account["balance"] ?>"> -->
                                 <?php
                                 if ($account["account_status"] == "actif") {
                                     echo "<option value='" . $account["id"] . "'>";
-                                    echo $account["id"];
+                                    echo $account["id"] . " " . $account["account_type"];
                                     echo "</option>";
                                 }
                                 ?>
@@ -141,6 +141,7 @@
                         <input
                             type="number"
                             min="0.01"
+                            name="montant"
                             step="0.01"
                             class="pl-8 w-full rounded-lg border-gray-200 p-3 transition-colors duration-200 focus:border-blue-500 focus:ring focus:ring-blue-200"
                             placeholder="0.00" />
@@ -156,6 +157,7 @@
                 </div>
 
                 <button type="submit"
+                    name="vers"
                     class="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 rounded-lg transition-all duration-200 hover:from-blue-700 hover:to-blue-600 focus:ring-4 focus:ring-blue-200 transform hover:-translate-y-0.5">
                     Valider le virement
                 </button>
