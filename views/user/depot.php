@@ -16,7 +16,7 @@
                 <i data-lucide="credit-card" class="w-5 h-5"></i>
                 <span>Mes comptes</span>
             </a>
-            <a href="virement.html" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
+            <a href="/user/virements" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
                 <i data-lucide="send" class="w-5 h-5"></i>
                 <span>Virements</span>
             </a>

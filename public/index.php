@@ -24,6 +24,9 @@ Route::post('/user/profile/profilePSW', [ClientController::class, 'changePasswor
 Route::get('/user/myAccounts', [ClientController::class, 'showAccounts']);
 Route::get('/user/myAccounts/depots', [ClientController::class, 'depot']);
 Route::post('/user/myAccounts/depots/send', [ClientController::class, 'stockMoney']);
+Route::get('/user/myAccounts/retrait', [ClientController::class, 'showGetMoney']);
+Route::post('/user/myAccounts/retrait/send', [ClientController::class, 'getMoney']);
+Route::get('/user/virements', [ClientController::class, 'showVirement']);
 
 
 
