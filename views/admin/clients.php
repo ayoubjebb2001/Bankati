@@ -93,7 +93,7 @@
                                             <img src="www.placeholder.co/40/40" alt="Thomas Robert" class="w-10 h-10 rounded-full">
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900" id="fullName"><?= $client['name'] ?></div>
-                                                <div class="text-sm text-gray-500">ID: #<?= $client['id'] ?> </div>
+                                                <div id="client_id" class="text-sm text-gray-500">ID: #<?='CLT-'. date("YmdHi",strtotime($client['created_at'])). $client['id'] ?> </div>
                                             </div>
                                         </div>
                                     </td>
@@ -140,7 +140,14 @@
                                             <button class="text-blue-600 hover:text-blue-900">
                                                 <i data-lucide="eye" class="w-5 h-5"></i>
                                             </button>
-                                            <button onclick="toggleAddClientModal(true)" class="text-gray-600 hover:text-gray-900">
+                                            <button onclick="toggleAddClientModal(true,event)" class="text-gray-600 hover:text-gray-900" 
+                                            data-client='<?= json_encode([
+                                                "id" => 'CLT-'. date("YmdHi",strtotime($client['created_at'])). $client['id'],
+                                                "name" => $client["name"],
+                                                "email" => $client["email"],
+                                                "phone" => $client["phone"],
+                                                "address" => $client["address"]
+                                                ]); ?>'>
                                                 <i data-lucide="edit" class="w-5 h-5"></i>
                                             </button>
                                             <?php if ($client['status'] == 'actif'): ?>
@@ -191,6 +198,7 @@
                                                 <div>
                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Numéro client</label>
                                                     <input
+                                                        name="num_client"
                                                         type="text"
                                                         readonly
                                                         value="CLT-2024-0001"
@@ -252,7 +260,7 @@
                                         </div>
 
                                         <!-- Type de compte -->
-                                        <div>
+                                        <div id="account_config">
                                             <h4 class="text-base font-medium text-gray-900 mb-4">Configuration du compte</h4>
                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 <div>
@@ -280,6 +288,7 @@
                                         Annuler
                                     </button>
                                     <button
+                                        id="AddClientButton"
                                         onclick="submitAddClientForm()"
                                         class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         Créer le compte
