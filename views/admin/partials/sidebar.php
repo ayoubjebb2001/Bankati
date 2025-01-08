@@ -20,11 +20,11 @@
 
                 <!-- Navigation -->
                 <nav class="mt-6 flex-grow">
-                    <a href="./" class="flex items-center w-full px-6 py-3 text-white bg-gray-800">
+                    <a href="/admin" class="flex items-center w-full px-6 py-3 text-white bg-gray-800">
                         <i data-lucide="layout-dashboard" class="w-5 h-5 mr-3"></i>
                         <span>Dashboard</span>
                     </a>
-                    <a href="./clients" class="flex items-center w-full px-6 py-3 text-gray-400 hover:text-white hover:bg-gray-800">
+                    <a href="/clients" class="flex items-center w-full px-6 py-3 text-gray-400 hover:text-white hover:bg-gray-800">
                         <i data-lucide="users" class="w-5 h-5 mr-3"></i>
                         <span>Clients</span>
                     </a>
