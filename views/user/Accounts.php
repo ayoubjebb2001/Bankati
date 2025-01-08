@@ -48,7 +48,7 @@
                 <i data-lucide="credit-card" class="w-5 h-5"></i>
                 <span>Mes comptes</span>
             </a>
-            <a href="virement.html" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
+            <a href="/user/virements" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
                 <i data-lucide="send" class="w-5 h-5"></i>
                 <span>Virements</span>
             </a>
@@ -101,9 +101,31 @@
                             </div>
                             <div class="text-right">
                                 <p class="text-3xl font-bold text-gray-900">€<?= $account["balance"] ?></p>
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 animate-pulse">
-                                    Actif
-                                </span>
+                                <?php
+                                if ($account["account_status"] == "actif") {
+                                    echo
+                                    '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 animate-pulse">
+                                        Actif
+                                    </span>';
+                                } else if ($account["account_status"] == "inactif") {
+                                    echo
+                                    '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                                    Inactif
+                                    </span>';
+                                } else if ($account["account_status"] == "en attente") {
+                                    echo
+                                    '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 animate-bounce">
+                                    En Attente
+                                    </span>
+                                    ';
+                                } else if ($account["account_status"] == "bloqué") {
+                                    echo
+                                    '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                                    Bloqué
+                                    </span>
+                                    ';
+                                }
+                                ?>
                             </div>
                         </div>
 
@@ -112,10 +134,10 @@
                                 <i data-lucide="plus-circle" class="w-5 h-5 mr-2 transition-transform duration-200 group-hover:rotate-90"></i>
                                 Alimenter
                             </a>
-                            <button class="group flex items-center justify-center p-3 text-purple-600 border border-purple-600 rounded-lg transition-all duration-200 hover:bg-purple-600 hover:text-white">
+                            <a href="/user/myAccounts/retrait?id=<?= $account['id'] ?>" class="group flex items-center justify-center p-3 text-purple-600 border border-purple-600 rounded-lg transition-all duration-200 hover:bg-purple-600 hover:text-white">
                                 <i data-lucide="download" class="w-5 h-5 mr-2 transition-transform duration-200 group-hover:translate-y-1"></i>
                                 Relevé
-                            </button>
+                            </a>
                         </div>
 
                         <!-- Account details with hover effect -->

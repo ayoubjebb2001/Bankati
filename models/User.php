@@ -23,11 +23,11 @@ class User extends Db
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function modifyProf($name, $email, $id)
+    public function modifyProf($name, $phone, $address, $email, $id)
     {
-        $q = "UPDATE users SET name = ?, email = ? WHERE id = ?";
+        $q = "UPDATE users SET name = ?, phone=?,address=?, email = ? WHERE id = ?";
         $modify = $this->conn->prepare($q);
-        $modify->execute([$name, $email, intval($id)]);
+        $modify->execute([$name, $phone, $address, $email, intval($id)]);
         return $modify;
     }
 
@@ -61,15 +61,25 @@ class User extends Db
         return $addMoney->execute([$money, $id]);
     }
 
-    public function getClients(){
+    public function getClients()
+    {
         $q = "SELECT * FROM users";
         $clients = $this->conn->prepare($q);
         $clients->execute();
         $allClients = $clients->fetchAll(PDO::FETCH_ASSOC);
         return $allClients;
     }
+    public function currenAccount($id, $compteID)
+    {
+        $q = "SELECT * FROM accounts WHERE user_id = ? AND id =?";
+        $clients = $this->conn->prepare($q);
+        $clients->execute([$id, $compteID]);
+        $account = $clients->fetchAll(PDO::FETCH_ASSOC);
+        return $account;
+    }
 
-    public function getLastActivity($id){
+    public function getLastActivity($id)
+    {
         $q = "SELECT * FROM transactions JOIN accounts WHERE transactions.account_id = accounts.id AND user_id = ? ORDER BY transactions.created_at DESC LIMIT 1";
         $transaction = $this->conn->prepare($q);
         $transaction->execute([$id]);
@@ -86,26 +96,33 @@ class User extends Db
         $lastAccount = $account->fetch(PDO::FETCH_ASSOC);
 
         // if the user has no account , return the user's registration date
-        if(!$lastAccount){
+        if (!$lastAccount) {
             $lastActivity = [
                 'date' => $accountCreated['created_at'],
                 'type' => 'Creation de compte utilisateur'
             ];
         }
         // if the user has no transaction , return the account's creation date
-        if(!$lastTransaction){
+        if (!$lastTransaction) {
             $lastActivity = [
                 'date' => $lastAccount['created_at'],
                 'type' => 'Ouverture de compte bancaire'
             ];
         }
         // if the user has transaction and account , return the last transaction 
-        if($lastTransaction && $lastAccount){
+        if ($lastTransaction && $lastAccount) {
             $lastActivity = [
                 'date' => $lastTransaction['created_at'],
                 'type' => $lastTransaction['transaction_type']
             ];
         }
         return $lastActivity;
+    }
+    public function extractMoney($amount, $id)
+    {
+        $q = "UPDATE accounts SET balance = balance - ? WHERE id = ?";
+        $modify = $this->conn->prepare($q);
+        $modify->execute([$amount, intval($id)]);
+        return $modify;
     }
 }

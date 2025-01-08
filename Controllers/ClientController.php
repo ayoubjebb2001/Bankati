@@ -29,7 +29,9 @@ class ClientController extends BaseController
             $id = $_SESSION['user']['id'];
             $name = $_POST["name"];
             $email = $_POST["email"];
-            $this->userModel->modifyProf($name, $email, $id);
+            $phone = $_POST["phone"];
+            $address = $_POST["address"];
+            $this->userModel->modifyProf($name, $phone, $address, $email, $id);
             header("location: /user/profile");
         }
     }
@@ -71,5 +73,34 @@ class ClientController extends BaseController
                 header("Location: /user/myAccounts");
             }
         }
+    }
+    public function showGetMoney()
+    {
+        $id = $_SESSION['user']['id'];
+        $compteID = $_GET["id"];
+        $account = $this->userModel->currenAccount($id, $compteID);
+        $users = $this->userModel->getUser($id);
+        $this->render('user/retrait', ["users" => $users, "compteID" => $compteID, "account" => $account]);
+    }
+    public function getMoney()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["getMoney"])) {
+            $amount = $_POST["amount"];
+            $myMoney = $_POST["myMoney"];
+            $id = $_POST["compteID"];
+            if ($myMoney - $amount >= 0) {
+                $this->userModel->extractMoney($amount, $id);
+                header("Location: /user/myAccounts");
+            } else {
+                header("Location: /user/myAccounts");
+            }
+        }
+    }
+    public function showVirement()
+    {
+        $id = $_SESSION['user']['id'];
+        $accounts = $this->userModel->getAccounts($id);
+        $users = $this->userModel->getUser($id);
+        $this->render('user/virement', ["id" => $id, "users" => $users, "accounts" => $accounts]);
     }
 }
