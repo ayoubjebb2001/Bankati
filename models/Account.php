@@ -1,5 +1,6 @@
 <?php
-class Account extends Db {
+class Account extends Db
+{
 
     public function __construct()
     {
@@ -14,7 +15,8 @@ class Account extends Db {
         return $create;
     }
 
-    public function makeWithdrawal($accountId, $amount) {
+    public function makeWithdrawal($accountId, $amount)
+    {
         try {
             // Start transaction
             $this->conn->beginTransaction();
@@ -36,7 +38,7 @@ class Account extends Db {
                     updated_at = NOW() 
                 WHERE id = :accountId"
             );
-            
+
             $stmt->execute([
                 ':amount' => $amount,
                 ':accountId' => $accountId
@@ -48,7 +50,7 @@ class Account extends Db {
                 (account_id, transaction_type, amount, created_at) 
                 VALUES (:accountId, 'retrait', :amount, NOW())"
             );
-            
+
             $stmt->execute([
                 ':accountId' => $accountId,
                 ':amount' => $amount
@@ -57,11 +59,27 @@ class Account extends Db {
             // Commit transaction
             $this->conn->commit();
             return true;
-
         } catch (Exception $e) {
             // Rollback on error
             $this->conn->rollBack();
             throw $e;
         }
     }
+    public function getAccounts($id)
+    {
+        $q = "SELECT * FROM accounts WHERE user_id = ?";
+        $modify = $this->conn->prepare($q);
+        $modify->execute([$id]);
+        $accounts = $modify->fetchAll(PDO::FETCH_ASSOC);
+        return $accounts;
+    }
+        public function currenAccount($id, $compteID)
+    {
+        $q = "SELECT * FROM accounts WHERE user_id = ? AND id =?";
+        $clients = $this->conn->prepare($q);
+        $clients->execute([$id, $compteID]);
+        $account = $clients->fetchAll(PDO::FETCH_ASSOC);
+        return $account;
+    }
+
 }
