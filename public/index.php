@@ -9,6 +9,7 @@ require_once('../core/Router.php');
 require_once('../core/Route.php');
 require_once('../config/database.php');
 require_once('../models/User.php');
+require_once('../models/Account.php');
 
 $router = new Router();
 Route::setRouter($router);
@@ -16,8 +17,10 @@ Route::setRouter($router);
 // Define routes
 Route::get('/', [AuthController::class, 'showLogin']);
 Route::post('/signin', [AuthController::class, 'Signin']);
-Route::get('/admin/home', [AdminController::class, 'showDashboard']);
-Route::get('/admin/clients', [AdminController::class, 'showClients']);
+Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/clients', [ClientController::class, 'index']);
+Route::post('/clients/add', [ClientController::class, 'add']);
+Route::post('/clients/edit', [ClientController::class, 'edit']);
 Route::get('/user/profile', [ClientController::class, 'showProfile']);
 Route::post('/user/profile/modifyprofile', [ClientController::class, 'modifyProfile']);
 Route::post('/user/profile/profilePSW', [ClientController::class, 'changePassword']);
