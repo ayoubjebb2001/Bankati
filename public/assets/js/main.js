@@ -130,3 +130,34 @@ function submitEditClientForm(event) {
     form.submit();
     toggleAddClientModal(true,event);
 }
+
+function lockClient(event){
+    const client_id = JSON.parse(event.currentTarget.dataset.client).id;
+    fetch("http://localhost:8000/clients/lock",
+    {
+        method: "POST",
+        headers : {
+            "Content-Type" : "application/json",
+        },
+        body : JSON.stringify({
+            id : client_id
+        }),
+    }
+    );
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+    fetch("http://localhost:8000/clients").then( (response)=>{
+        if(response.status == 201){
+            Swal.fire({
+                title: "Parfait!",
+                text: "Client Verrouillé",
+                icon: "success",
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+        }
+    } )
+
+})

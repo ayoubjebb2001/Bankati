@@ -121,9 +121,9 @@
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                                 Actif
                                             </span>
-                                        <?php elseif ($client['status'] == 'inactif'): ?>
+                                        <?php elseif ($client['status'] == 'bloqué'): ?>
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                                Inactif
+                                                Bloqué
                                             </span>
                                         <?php elseif ($client['status'] == 'en attente'): ?>
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
@@ -156,7 +156,7 @@
                                                 <?= json_encode(["id" => $client["id"]]); ?>'>
                                                     <i data-lucide="lock" class="w-5 h-5"></i>
                                                 </button>
-                                            <?php elseif ($client['status'] == 'en attente' || $client['status'] == 'inactif'): ?>
+                                            <?php elseif ($client['status'] == 'en attente' || $client['status'] == 'bloqué'): ?>
                                                 <button onclick="activateClient(event)" class="text-green-600 hover:text-green-900"
                                                     data-client='<?= json_encode(["id" => $client["id"]]); ?>'>
                                                     <i data-lucide="check-circle" class="w-5 h-5"></i>
