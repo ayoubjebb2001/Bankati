@@ -734,6 +734,10 @@ video {
   margin-top: auto;
 }
 
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
 .block {
   display: block;
 }
@@ -868,6 +872,10 @@ video {
 
 .flex-1 {
   flex: 1 1 0%;
+}
+
+.flex-shrink-0 {
+  flex-shrink: 0;
 }
 
 .flex-grow {
@@ -1394,6 +1402,14 @@ video {
 
 .pt-6 {
   padding-top: 1.5rem;
+}
+
+.pr-3 {
+  padding-right: 0.75rem;
+}
+
+.pr-8 {
+  padding-right: 2rem;
 }
 
 .text-left {

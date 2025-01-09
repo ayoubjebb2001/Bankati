@@ -5,6 +5,7 @@ require_once('../Controllers/BaseController.php');
 require_once('../Controllers/AuthController.php');
 require_once('../Controllers/ClientController.php');
 require_once('../Controllers/AdminController.php');
+require_once('../Controllers/AccountController.php');
 require_once('../core/Router.php');
 require_once('../core/Route.php');
 require_once('../config/database.php');
@@ -19,11 +20,15 @@ Route::setRouter($router);
 Route::get('/', [AuthController::class, 'showLogin']);
 Route::post('/signin', [AuthController::class, 'Signin']);
 Route::get('/admin', [AdminController::class, 'index']);
+
 Route::get('/clients', [ClientController::class, 'index']);
 Route::post('/clients/add', [ClientController::class, 'add']);
 Route::post('/clients/edit', [ClientController::class, 'edit']);
 Route::post('/clients/lock', [ClientController::class, 'lock']);
 Route::post('/clients/activate', [ClientController::class, 'activate']);
+
+Route::get('/accounts', [AccountController::class, 'index']);
+
 Route::get('/user/profile', [ClientController::class, 'showProfile']);
 Route::post('/user/profile/modifyprofile', [ClientController::class, 'modifyProfile']);
 Route::post('/user/profile/profilePSW', [ClientController::class, 'changePassword']);
