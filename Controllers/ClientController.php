@@ -95,6 +95,15 @@ class ClientController extends BaseController
         };
     }
 
+    public function activate(){
+        header("Content-Type: application/json; charset=UTF-8");
+        $client = json_decode(file_get_contents("php://input"));
+        $id = $client->id;
+
+        if($this->userModel->activate($id)){
+            $this->index();
+        };
+    }
     public function showProfile()
     {
         if (!isset($_SESSION['user'])) {

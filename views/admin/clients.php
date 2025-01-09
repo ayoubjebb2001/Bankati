@@ -303,7 +303,7 @@
                     <!-- Pagination -->
                     <div class="flex items-center justify-between mt-6">
                         <div class="text-sm text-gray-700">
-                            Affichage de 1 à 10 sur 45 clients
+                            Affichage de 1 à 10 sur <?=count($clients)?> clients
                         </div>
                         <div class="flex space-x-2">
                             <button class="px-3 py-1 border rounded text-gray-600 hover:bg-gray-50">

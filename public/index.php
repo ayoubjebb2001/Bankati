@@ -23,6 +23,7 @@ Route::get('/clients', [ClientController::class, 'index']);
 Route::post('/clients/add', [ClientController::class, 'add']);
 Route::post('/clients/edit', [ClientController::class, 'edit']);
 Route::post('/clients/lock', [ClientController::class, 'lock']);
+Route::post('/clients/activate', [ClientController::class, 'activate']);
 Route::get('/user/profile', [ClientController::class, 'showProfile']);
 Route::post('/user/profile/modifyprofile', [ClientController::class, 'modifyProfile']);
 Route::post('/user/profile/profilePSW', [ClientController::class, 'changePassword']);

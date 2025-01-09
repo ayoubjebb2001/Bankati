@@ -29,6 +29,13 @@ class User extends Db
         return $stmt->execute(["bloqué",$user_id]);
     }
 
+    public function activate($user_id){
+        $q = "UPDATE users SET status = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($q);
+        return $stmt->execute(["actif",$user_id]);
+    }
+
+
     function getUser($id)
     {
         $q = "SELECT * FROM users WHERE id=? ";
