@@ -11,9 +11,14 @@ class ClientController extends BaseController
         $this->accountModel = new Account();
     }
 
-    public function index(){
+    public function index()
+    {
+        if (!isset($_SESSION['admin'])) {
+            header('Location: /');
+            exit();
+        }
         $clients = $this->userModel->getClients();
-        foreach($clients as &$client){
+        foreach ($clients as &$client) {
             $accounts = $this->userModel->getAccounts($client['id']);
             $client['accounts'] = $accounts;
             $lastActivity = $this->userModel->getLastActivity($client['id']);
@@ -25,9 +30,14 @@ class ClientController extends BaseController
         ]);
     }
 
-    public function add(){
-        if ($_SERVER["REQUEST_METHOD"] == "POST" ) {
-            $name = $_POST["firstname"]. " " . $_POST["lastname"];
+    public function add()
+    {
+        if (!isset($_SESSION['admin'])) {
+            header('Location: /');
+            exit();
+        }
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $name = $_POST["firstname"] . " " . $_POST["lastname"];
             $email = $_POST["email"];
             $phone = $_POST["phone"];
             $address = $_POST["address"];
@@ -36,19 +46,40 @@ class ClientController extends BaseController
 
 
             $user_id = $this->userModel->create($name, $email, $phone, $address, $password);
-            if($accountType== "both"){
-                $this->accountModel->create("epargne",$user_id);
-                $this->accountModel->create("courant",$user_id);
+            if ($accountType == "both") {
+                $this->accountModel->create("epargne", $user_id);
+                $this->accountModel->create("courant", $user_id);
+            } else {
+                $this->accountModel->create($accountType, $user_id);
             }
-            else{
-                $this->accountModel->create($accountType,$user_id);
-            }
+            header("Location: /clients");
+        }
+    }
+
+    public function edit()
+    {
+        if (!isset($_SESSION['admin'])) {
+            header('Location: /');
+            exit();
+        }
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $id = $_POST['id'];
+            $name = $_POST["firstname"] . " " . $_POST["lastname"];
+            $email = $_POST["email"];
+            $phone = $_POST["phone"];
+            $address = $_POST["address"];
+
+            $this->userModel->update($name, $phone, $address, $email, $id);
             header("Location: /clients");
         }
     }
 
     public function showProfile()
     {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /');
+            exit();
+        }
         // $this->userModel->test();
         $id = $_SESSION['user']['id'];
         $users = $this->userModel->getUser($id);
@@ -56,6 +87,10 @@ class ClientController extends BaseController
     }
     public function showAccounts()
     {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /');
+            exit();
+        }
         $id = $_SESSION['user']['id'];
         $users = $this->userModel->getUser($id);
         $accounts = $this->userModel->getAccounts($id);
@@ -63,18 +98,26 @@ class ClientController extends BaseController
     }
     function modifyProfile()
     {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /');
+            exit();
+        }
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["info"])) {
             $id = $_SESSION['user']['id'];
             $name = $_POST["name"];
             $email = $_POST["email"];
             $phone = $_POST["phone"];
             $address = $_POST["address"];
-            $this->userModel->modifyProf($name, $phone, $address, $email, $id);
+            $this->userModel->update($name, $phone, $address, $email, $id);
             header("location: /user/profile");
         }
     }
     function changePassword()
     {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /');
+            exit();
+        }
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["psw"])) {
             $id = $_SESSION['user']['id'];
             $currentPass = $_POST["psw1"];
@@ -96,6 +139,10 @@ class ClientController extends BaseController
     }
     public function depot()
     {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /');
+            exit();
+        }
         $id = $_SESSION['user']['id'];
         $compteID = $_GET["id"];
         $users = $this->userModel->getUser($id);
@@ -104,6 +151,10 @@ class ClientController extends BaseController
     }
     public function stockMoney()
     {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /');
+            exit();
+        }
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["depot"])) {
             $id = $_POST["id"];
             $money = $_POST["money"];
@@ -115,6 +166,10 @@ class ClientController extends BaseController
     }
     public function showGetMoney()
     {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /');
+            exit();
+        }
         $id = $_SESSION['user']['id'];
         $compteID = $_GET["id"];
         $account = $this->userModel->currenAccount($id, $compteID);
@@ -123,6 +178,10 @@ class ClientController extends BaseController
     }
     public function getMoney()
     {
+        if (!isset($_SESSION['user'])) {
+            header('Location: /');
+            exit();
+        }
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["getMoney"])) {
             $amount = $_POST["amount"];
             $myMoney = $_POST["myMoney"];
@@ -137,6 +196,10 @@ class ClientController extends BaseController
     }
     public function showVirement()
     {
+        if (!isset($_SESSION['admin'])) {
+            header('Location: /');
+            exit();
+        }
         $id = $_SESSION['user']['id'];
         $accounts = $this->userModel->getAccounts($id);
         $users = $this->userModel->getUser($id);
