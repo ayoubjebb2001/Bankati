@@ -58,9 +58,19 @@ class Transaction extends Db
         $getLastTrans = $getLastTR->fetchAll(PDO::FETCH_ASSOC);
         return $getLastTrans;
     }
-    public function getAllRetraits($id){
+    public function getAllRetraits($id)
+    {
         $q = "SELECT SUM(amount) AS total FROM transactions JOIN accounts JOIN users WHERE transactions.account_id = accounts.id AND accounts.user_id = users.id AND transaction_type = 'retrait' 
         AND users.id = ?";
+        $getLastTR = $this->conn->prepare($q);
+        $getLastTR->execute([$id]);
+        $getLastTrans = $getLastTR->fetchAll(PDO::FETCH_ASSOC);
+        return $getLastTrans;
+    }
+    public function getAllTransactions($id)
+    {
+        $q = "SELECT * FROM transactions JOIN accounts JOIN users WHERE transactions.account_id = accounts.id AND accounts.user_id = users.id 
+        AND users.id = ? ";
         $getLastTR = $this->conn->prepare($q);
         $getLastTR->execute([$id]);
         $getLastTrans = $getLastTR->fetchAll(PDO::FETCH_ASSOC);
