@@ -40,4 +40,30 @@ class Transaction extends Db
         $addMoney = $this->conn->prepare($q);
         return $addMoney->execute([$money, $id]);
     }
+    public function getLastVirements($id)
+    {
+        $q = "SELECT * FROM transactions JOIN accounts JOIN users WHERE transactions.account_id = accounts.id AND accounts.user_id = users.id AND transaction_type = 'transfert' 
+        AND users.id = ? ORDER BY transactions.created_at DESC limit 3";
+        $getLastTR = $this->conn->prepare($q);
+        $getLastTR->execute([$id]);
+        $getLastTrans = $getLastTR->fetchAll(PDO::FETCH_ASSOC);
+        return $getLastTrans;
+    }
+    public function getAllDepots($id)
+    {
+        $q = "SELECT SUM(amount) AS total FROM transactions JOIN accounts JOIN users WHERE transactions.account_id = accounts.id AND accounts.user_id = users.id AND transaction_type = 'depot' 
+        AND users.id = ?";
+        $getLastTR = $this->conn->prepare($q);
+        $getLastTR->execute([$id]);
+        $getLastTrans = $getLastTR->fetchAll(PDO::FETCH_ASSOC);
+        return $getLastTrans;
+    }
+    public function getAllRetraits($id){
+        $q = "SELECT SUM(amount) AS total FROM transactions JOIN accounts JOIN users WHERE transactions.account_id = accounts.id AND accounts.user_id = users.id AND transaction_type = 'retrait' 
+        AND users.id = ?";
+        $getLastTR = $this->conn->prepare($q);
+        $getLastTR->execute([$id]);
+        $getLastTrans = $getLastTR->fetchAll(PDO::FETCH_ASSOC);
+        return $getLastTrans;
+    }
 }

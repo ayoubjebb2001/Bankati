@@ -32,6 +32,7 @@ Route::get('/user/myAccounts/retrait', [ClientController::class, 'showGetMoney']
 Route::post('/user/myAccounts/retrait/send', [ClientController::class, 'getMoney']);
 Route::get('/user/virements', [ClientController::class, 'showVirement']);
 Route::post('/user/virements/send', [ClientController::class, 'virement']);
+Route::get('/user/historique', [ClientController::class, 'showHistoriques']);
 
 
 

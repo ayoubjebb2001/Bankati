@@ -143,7 +143,8 @@ class ClientController extends BaseController
         $id = $_SESSION['user']['id'];
         $accounts = $this->accountModel->getAccounts($id);
         $users = $this->userModel->getUser($id);
-        $this->render('user/virement', ["id" => $id, "users" => $users, "accounts" => $accounts]);
+        $transfers = $this->transactionModel->getLastVirements($id);
+        $this->render('user/virement', ["id" => $id, "users" => $users, "accounts" => $accounts, "transfers" => $transfers]);
     }
     public function virement()
     {
@@ -158,5 +159,16 @@ class ClientController extends BaseController
                 header("Location: /user/virements?message=the money has converted successfuly");
             }
         }
+    }
+    public function showHistoriques()
+    {
+        $id = $_SESSION['user']['id'];
+        $accounts = $this->accountModel->getAccounts($id);
+        $users = $this->userModel->getUser($id);
+        $transfers = $this->transactionModel->getLastVirements($id);
+        $allDepots = $this->transactionModel->getAllDepots($id);
+        $allRetraits = $this->transactionModel->getAllRetraits($id);
+        $difference = $allDepots[0]["total"] - $allRetraits[0]["total"];
+        $this->render('user/historique', ["id" => $id, "difference" => $difference, "users" => $users, "accounts" => $accounts, "transfers" => $transfers, "totalDepot" => $allDepots, "totalRetraits" => $allRetraits]);
     }
 }
