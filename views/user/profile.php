@@ -23,11 +23,7 @@
                 <i data-lucide="send" class="w-5 h-5"></i>
                 <span>Virements</span>
             </a>
-            <a href="benificier.html" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
-                <i data-lucide="users" class="w-5 h-5"></i>
-                <span>Bénéficiaires</span>
-            </a>
-            <a href="historique.html" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
+            <a href="/user/historique" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
                 <i data-lucide="history" class="w-5 h-5"></i>
                 <span>Historique</span>
             </a>
@@ -79,7 +75,7 @@
                                         class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
                                         value="<?= $user["name"] ?>" />
                                 </div>
-                                
+
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700">phone</label>
                                     <input

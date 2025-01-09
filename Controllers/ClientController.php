@@ -4,15 +4,22 @@ class ClientController extends BaseController
 {
     private $userModel;
     private $accountModel;
+    private $transactionModel;
     public function __construct()
     {
 
         $this->userModel = new User();
         $this->accountModel = new Account();
+        $this->transactionModel = new Transaction();
     }
 
     public function index()
     {
+
+        $clients = $this->userModel->getClients();
+        foreach ($clients as &$client) {
+            $accounts = $this->accountModel->getAccounts($client['id']);
+
         if (!isset($_SESSION['admin'])) {
             header('Location: /');
             exit();
@@ -20,6 +27,7 @@ class ClientController extends BaseController
         $clients = $this->userModel->getClients();
         foreach ($clients as &$client) {
             $accounts = $this->userModel->getAccounts($client['id']);
+
             $client['accounts'] = $accounts;
             $lastActivity = $this->userModel->getLastActivity($client['id']);
             $client['last_activity'] = $lastActivity;
@@ -32,10 +40,12 @@ class ClientController extends BaseController
 
     public function add()
     {
+
         if (!isset($_SESSION['admin'])) {
             header('Location: /');
             exit();
         }
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $name = $_POST["firstname"] . " " . $_POST["lastname"];
             $email = $_POST["email"];
@@ -93,7 +103,7 @@ class ClientController extends BaseController
         }
         $id = $_SESSION['user']['id'];
         $users = $this->userModel->getUser($id);
-        $accounts = $this->userModel->getAccounts($id);
+        $accounts = $this->accountModel->getAccounts($id);
         $this->render('user/Accounts', ["users" => $users, "accounts" => $accounts]);
     }
     function modifyProfile()
@@ -159,7 +169,7 @@ class ClientController extends BaseController
             $id = $_POST["id"];
             $money = $_POST["money"];
             if ($money >= 0.01) {
-                $this->userModel->addMoney($money, $id);
+                $this->transactionModel->addMoney($money, $id);
                 header("Location: /user/myAccounts");
             }
         }
@@ -172,7 +182,7 @@ class ClientController extends BaseController
         }
         $id = $_SESSION['user']['id'];
         $compteID = $_GET["id"];
-        $account = $this->userModel->currenAccount($id, $compteID);
+        $account = $this->accountModel->currenAccount($id, $compteID);
         $users = $this->userModel->getUser($id);
         $this->render('user/retrait', ["users" => $users, "compteID" => $compteID, "account" => $account]);
     }
@@ -201,9 +211,10 @@ class ClientController extends BaseController
             exit();
         }
         $id = $_SESSION['user']['id'];
-        $accounts = $this->userModel->getAccounts($id);
+        $accounts = $this->accountModel->getAccounts($id);
         $users = $this->userModel->getUser($id);
-        $this->render('user/virement', ["id" => $id, "users" => $users, "accounts" => $accounts]);
+        $transfers = $this->transactionModel->getLastVirements($id);
+        $this->render('user/virement', ["id" => $id, "users" => $users, "accounts" => $accounts, "transfers" => $transfers]);
     }
     public function virement()
     {
@@ -214,9 +225,20 @@ class ClientController extends BaseController
             if ($sender == "al" || $sender == "all2" || $reciever == "al" || $reciever == "all2") {
                 header("Location: /user/virements");
             } else {
-                $this->userModel->virement($sender, $reciever, $money);
+                $this->transactionModel->virement($sender, $reciever, $money);
                 header("Location: /user/virements?message=the money has converted successfuly");
             }
         }
+    }
+    public function showHistoriques()
+    {
+        $id = $_SESSION['user']['id'];
+        $accounts = $this->accountModel->getAccounts($id);
+        $users = $this->userModel->getUser($id);
+        $transfers = $this->transactionModel->getLastVirements($id);
+        $allDepots = $this->transactionModel->getAllDepots($id);
+        $allRetraits = $this->transactionModel->getAllRetraits($id);
+        $difference = $allDepots[0]["total"] - $allRetraits[0]["total"];
+        $this->render('user/historique', ["id" => $id, "difference" => $difference, "users" => $users, "accounts" => $accounts, "transfers" => $transfers, "totalDepot" => $allDepots, "totalRetraits" => $allRetraits]);
     }
 }

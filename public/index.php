@@ -10,6 +10,7 @@ require_once('../core/Route.php');
 require_once('../config/database.php');
 require_once('../models/User.php');
 require_once('../models/Account.php');
+require_once('../models/transaction.php');
 
 $router = new Router();
 Route::setRouter($router);
@@ -31,6 +32,7 @@ Route::get('/user/myAccounts/retrait', [ClientController::class, 'showGetMoney']
 Route::post('/user/myAccounts/retrait/send', [ClientController::class, 'getMoney']);
 Route::get('/user/virements', [ClientController::class, 'showVirement']);
 Route::post('/user/virements/send', [ClientController::class, 'virement']);
+Route::get('/user/historique', [ClientController::class, 'showHistoriques']);
 
 
 

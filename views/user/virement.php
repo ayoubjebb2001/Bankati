@@ -64,7 +64,7 @@
                 <i data-lucide="send" class="w-5 h-5"></i>
                 <span>Virements</span>
             </a>
-            <a href="historique.html" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
+            <a href="/user/historique" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
                 <i data-lucide="history" class="w-5 h-5"></i>
                 <span>Historique</span>
             </a>
@@ -158,6 +158,7 @@
 
                 <button type="submit"
                     name="vers"
+                    onclick="confirm('are you sure you want to complete this transfere ?!\nEither OK or Cancel.')"
                     class="w-full bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 rounded-lg transition-all duration-200 hover:from-blue-700 hover:to-blue-600 focus:ring-4 focus:ring-blue-200 transform hover:-translate-y-0.5">
                     Valider le virement
                 </button>
@@ -169,37 +170,98 @@
             <div class="p-6 border-b border-gray-100">
                 <h3 class="text-xl font-semibold text-gray-800">Derniers virements</h3>
             </div>
-            <div class="divide-y divide-gray-100" id="recentTransfers">
-                <!-- Transfer items will be added here by JavaScript -->
+            <div class="max-w-3xl mx-auto p-4">
+                <div class="bg-white rounded-lg shadow divide-y divide-gray-100" id="recentTransfers">
+                    <?php foreach ($transfers as $transfer): ?>
+                        <div class="p-4 hover:bg-gray-50 transition-colors">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Sender Information -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-500">From:</span>
+                                        <span class="font-medium">
+                                            <?php
+                                            $accountCMP = $transfer["account_id"];
+                                            foreach ($accounts as $account) {
+                                                if ($account["id"] == $accountCMP) {
+                                                    $usID = $account["user_id"];
+                                                    echo "Account " . $account["account_type"];
+                                                }
+                                            }
+                                            foreach ($users as $user) {
+                                                if ($user["id"] == $usID) {
+                                                    echo ": " . $user["name"];
+                                                }
+                                            }
+                                            ?>
+                                        </span>
+                                    </div>
+
+                                    <!-- Recipient Information -->
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-500">To:</span>
+                                        <span class="font-medium">
+                                            <?php
+                                            $accountCMP = $transfer["beneficiary_account_id"];
+                                            foreach ($accounts as $account) {
+                                                if ($account["id"] == $accountCMP) {
+                                                    $usID = $account["user_id"];
+                                                    echo "Account " . $account["account_type"];
+                                                }
+                                            }
+                                            foreach ($users as $user) {
+                                                if ($user["id"] == $usID) {
+                                                    echo ": " . $user["name"];
+                                                }
+                                            }
+                                            ?>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Date and Amount -->
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-500">Date:</span>
+                                        <span class="font-medium"><?= $transfer["created_at"] ?></span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-500">Amount:</span>
+                                        <span class="font-medium text-green-600">$<?= number_format($transfer["amount"], 2) ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
+
         </div>
 
-    </div>
+        <script>
+            let send = document.getElementById('first');
+            let rcv = document.getElementById('second');
 
-    <script>
-        let send = document.getElementById('first');
-        let rcv = document.getElementById('second');
-
-        send.addEventListener("change", function() {
-            for (let option of rcv.options) {
-                if (option.value === send.value) {
-                    option.disabled = true;
-                } else {
-                    option.disabled = false;
+            send.addEventListener("change", function() {
+                for (let option of rcv.options) {
+                    if (option.value === send.value) {
+                        option.disabled = true;
+                    } else {
+                        option.disabled = false;
+                    }
                 }
-            }
-        });
+            });
 
-        rcv.addEventListener("change", function() {
-            for (let option of send.options) {
-                if (option.value === rcv.value) {
-                    option.disabled = true;
-                } else {
-                    option.disabled = false;
+            rcv.addEventListener("change", function() {
+                for (let option of send.options) {
+                    if (option.value === rcv.value) {
+                        option.disabled = true;
+                    } else {
+                        option.disabled = false;
+                    }
                 }
-            }
-        });
-    </script>
+            });
+        </script>
 
 
-    <?php require_once "../views/partials/footer.php" ?>
+        <?php require_once "../views/partials/footer.php" ?>
