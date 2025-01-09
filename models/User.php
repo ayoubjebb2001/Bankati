@@ -14,6 +14,15 @@ class User extends Db
         $create->execute([$name, $email, $phone, $address, $password]);
         return $this->conn->lastInsertId();
     }
+
+    public function update($name, $phone, $address, $email, $id)
+    {
+        $q = "UPDATE users SET name = ?, phone=?,address=?, email = ? WHERE id = ?";
+        $modify = $this->conn->prepare($q);
+        $modify->execute([$name, $phone, $address, $email, intval($id)]);
+        return $modify;
+    }
+
     function getUser($id)
     {
         $q = "SELECT * FROM users WHERE id=? ";
@@ -28,14 +37,6 @@ class User extends Db
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['email' => $email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function modifyProf($name, $phone, $address, $email, $id)
-    {
-        $q = "UPDATE users SET name = ?, phone=?,address=?, email = ? WHERE id = ?";
-        $modify = $this->conn->prepare($q);
-        $modify->execute([$name, $phone, $address, $email, intval($id)]);
-        return $modify;
     }
 
     public function checkPassword($currentPass, $id)
@@ -81,7 +82,7 @@ class User extends Db
 
         // if the user has no account , return the user's registration date
 
-        if($lastAccount == false){
+        if ($lastAccount == false) {
 
             $lastActivity = [
                 'date' => $accountCreated['created_at'],
@@ -90,7 +91,7 @@ class User extends Db
         }
         // if the user has no transaction , return the account's creation date
 
-        elseif($lastTransaction == false){
+        elseif ($lastTransaction == false) {
             $lastActivity = [
                 'date' => $lastAccount['created_at'],
                 'type' => 'Ouverture de compte bancaire'
@@ -98,7 +99,7 @@ class User extends Db
         }
         // if the user has transaction and account , return the last transaction 
 
-        else{
+        else {
             $lastActivity = [
                 'date' => $lastTransaction['created_at'],
                 'type' => $lastTransaction['transaction_type']
