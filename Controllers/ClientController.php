@@ -20,22 +20,23 @@ class ClientController extends BaseController
         foreach ($clients as &$client) {
             $accounts = $this->accountModel->getAccounts($client['id']);
 
-        if (!isset($_SESSION['admin'])) {
-            header('Location: /');
-            exit();
-        }
-        $clients = $this->userModel->getClients();
-        foreach ($clients as &$client) {
-            $accounts = $this->userModel->getAccounts($client['id']);
+            if (!isset($_SESSION['admin'])) {
+                header('Location: /');
+                exit();
+            }
+            $clients = $this->userModel->getClients();
+            foreach ($clients as &$client) {
+                $accounts = $this->accountModel->getAccounts($client['id']);
 
-            $client['accounts'] = $accounts;
-            $lastActivity = $this->userModel->getLastActivity($client['id']);
-            $client['last_activity'] = $lastActivity;
+                $client['accounts'] = $accounts;
+                $lastActivity = $this->userModel->getLastActivity($client['id']);
+                $client['last_activity'] = $lastActivity;
+            }
+            $this->render('admin/clients', [
+                'title' => 'Clients',
+                'clients' => $clients
+            ]);
         }
-        $this->render('admin/clients', [
-            'title' => 'Clients',
-            'clients' => $clients
-        ]);
     }
 
     public function add()
