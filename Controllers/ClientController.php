@@ -169,6 +169,7 @@ class ClientController extends BaseController
         $allDepots = $this->transactionModel->getAllDepots($id);
         $allRetraits = $this->transactionModel->getAllRetraits($id);
         $difference = $allDepots[0]["total"] - $allRetraits[0]["total"];
-        $this->render('user/historique', ["id" => $id, "difference" => $difference, "users" => $users, "accounts" => $accounts, "transfers" => $transfers, "totalDepot" => $allDepots, "totalRetraits" => $allRetraits]);
+        $allTrans = $this->transactionModel->getAllTransactions($id);
+        $this->render('user/historique', ["id" => $id, "difference" => $difference, "transactions" => $allTrans, "users" => $users, "accounts" => $accounts, "transfers" => $transfers, "totalDepot" => $allDepots, "totalRetraits" => $allRetraits]);
     }
 }

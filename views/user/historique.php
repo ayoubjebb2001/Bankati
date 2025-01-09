@@ -177,7 +177,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 animate__animated animate__fadeIn" style="animation-delay: 0.4s;">
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900">Transactions récentes</h3>
+                        <h3 class="text-lg font-semibold text-gray-900">Transactions </h3>
                         <button class="flex items-center text-sm text-blue-600 hover:text-blue-700">
                             <i data-lucide="download" class="w-4 h-4 mr-2"></i>
                             Exporter
@@ -189,41 +189,75 @@
                             <thead>
                                 <tr class="bg-gray-50">
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Libellé</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Compte</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">beneficiary_account</th>
                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Montant</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
-                                <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">15 Jan 2025</td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">Virement à John Doe</div>
-                                        <div class="text-sm text-gray-500">Remboursement restaurant</div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
-                                            Virement
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-gray-900">Compte Courant</td>
-                                    <td class="px-6 py-4 text-sm font-medium text-right text-red-600">- 125.00 €</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">14 Jan 2025</td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">Salaire Entreprise XYZ</div>
-                                        <div class="text-sm text-gray-500">Salaire Janvier 2025</div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                            Virement reçu
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-gray-900">Compte Courant</td>
-                                    <td class="px-6 py-4 text-sm font-medium text-right text-green-600">+ 2,500.00 €</td>
-                                </tr>
+                                <?php foreach ($transactions as $transaction): ?>
+                                    <!-- <?php var_dump($transaction);
+                                            ?> -->
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $transaction["created_at"] ?></td>
+                                        <td class="px-6 py-4">
+                                            <div class="text-sm text-gray-900"><?php
+                                                                                $accountCMP = $transaction["account_id"];
+                                                                                foreach ($accounts as $account) {
+                                                                                    if ($account["id"] == $accountCMP) {
+                                                                                        $usID = $account["user_id"];
+                                                                                        echo  $account["account_type"];
+                                                                                    }
+                                                                                }
+                                                                                foreach ($users as $user) {
+                                                                                    if ($user["id"] == $usID) {
+                                                                                        echo ": " . $user["name"];
+                                                                                    }
+                                                                                }
+                                                                                ?></div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <?php
+                                            if ($transaction["transaction_type"] == "transfert") {
+                                                echo "<span class='inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800'>" . $transaction["transaction_type"] . "</span>";
+                                            } else if ($transaction["transaction_type"] == "depot") {
+                                                echo "<span class='inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800'>" . $transaction["transaction_type"] . "</span>";
+                                            } else {
+                                                echo "<span class='inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800'>" . $transaction["transaction_type"] . "</span>";
+                                            }
+                                            ?>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-900"><?php
+                                                                                    if ($transaction["transaction_type"] == "transfert") {
+
+                                                                                        $accountCMP = $transaction["beneficiary_account_id"];
+                                                                                        foreach ($accounts as $account) {
+                                                                                            if ($account["id"] == $accountCMP) {
+                                                                                                $usID = $account["user_id"];
+                                                                                                echo  $account["account_type"];
+                                                                                            }
+                                                                                        }
+                                                                                        foreach ($users as $user) {
+                                                                                            if ($user["id"] == $usID) {
+                                                                                                echo ": " . $user["name"];
+                                                                                            }
+                                                                                        }
+                                                                                    } else {
+                                                                                        echo "_";
+                                                                                    }
+                                                                                    ?></td>
+                                        <?php
+                                        if ($transaction["transaction_type"] == "transfert") {
+                                            echo " <td class='px-6 py-4 text-sm font-medium text-right text-yellow-600'>" . $transaction["amount"] . " €</td>";
+                                        } else if ($transaction["transaction_type"] == "depot") {
+                                            echo " <td class='px-6 py-4 text-sm font-medium text-right text-green-600'>+" . $transaction["amount"] . " €</td>";
+                                        } else {
+                                            echo " <td class='px-6 py-4 text-sm font-medium text-right text-red-600'>-" . $transaction["amount"] . " €</td>";
+                                        }
+                                        ?>
+                                    </tr>
+                                <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>
