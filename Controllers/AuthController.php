@@ -9,6 +9,12 @@ class AuthController extends BaseController
     }
     public function showLogin()
     {
+        if(isset($_SESSION['admin'])){
+            header('Location: /admin');
+        }
+        if(isset($_SESSION['user'])){
+            header('Location: /user/profile');
+        }
         $this->render('login', ['title' => 'Login']);
     }
 
@@ -18,6 +24,7 @@ class AuthController extends BaseController
         $password = $_POST['password'];
 
         if ($email == 'admin@admin.ma' && $password == 'admin') {
+            $_SESSION['admin'] = true;
             header('Location: /admin');
         }
 

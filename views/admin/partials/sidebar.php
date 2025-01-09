@@ -52,10 +52,10 @@
                         <button
                             onclick="toggleProfileMenu()"
                             class="flex items-center w-full text-white hover:bg-gray-800 rounded-lg p-2">
-                            <img src="https://picsum.photos/200/300" alt="Admin" class="w-8 h-8 rounded-full">
+                            <img src="assets/img/youcode_profile.jpg" alt="Admin" class="w-8 h-8 rounded-full">
                             <div class="ml-3 flex-grow">
                                 <p class="text-sm font-medium">Admin</p>
-                                <p class="text-xs text-gray-400">admin@banque.fr</p>
+                                <p class="text-xs text-gray-400">admin@bankati.ma</p>
                             </div>
                             <i data-lucide="chevron-up" class="w-5 h-5 transform transition-transform duration-200" id="profileChevron"></i>
                         </button>

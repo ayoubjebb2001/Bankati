@@ -93,7 +93,7 @@
                                             <img src="www.placeholder.co/40/40" alt="Thomas Robert" class="w-10 h-10 rounded-full">
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900" id="fullName"><?= $client['name'] ?></div>
-                                                <div id="client_id" class="text-sm text-gray-500">ID: #<?='CLT-'. date("YmdHi",strtotime($client['created_at'])). $client['id'] ?> </div>
+                                                <div id="client_id" class="text-sm text-gray-500">ID: #<?= 'CLT-' . date("YmdHi", strtotime($client['created_at'])) . $client['id'] ?> </div>
                                             </div>
                                         </div>
                                     </td>
@@ -140,22 +140,25 @@
                                             <button class="text-blue-600 hover:text-blue-900">
                                                 <i data-lucide="eye" class="w-5 h-5"></i>
                                             </button>
-                                            <button onclick="toggleAddClientModal(true,event)" class="text-gray-600 hover:text-gray-900" 
-                                            data-client='<?= json_encode([
-                                                "id" => 'CLT-'. date("YmdHi",strtotime($client['created_at'])). $client['id'],
-                                                "name" => $client["name"],
-                                                "email" => $client["email"],
-                                                "phone" => $client["phone"],
-                                                "address" => $client["address"]
-                                                ]); ?>'>
+                                            <button onclick="toggleAddClientModal(true,event)" class="text-gray-600 hover:text-gray-900"
+                                                data-client='<?= json_encode([
+                                                                    "id" => $client['id'],
+                                                                    "num" => 'CLT-' . date("YmdHi", strtotime($client['created_at'])) . $client['id'],
+                                                                    "name" => $client["name"],
+                                                                    "email" => $client["email"],
+                                                                    "phone" => $client["phone"],
+                                                                    "address" => $client["address"]
+                                                                ]); ?>'>
                                                 <i data-lucide="edit" class="w-5 h-5"></i>
                                             </button>
                                             <?php if ($client['status'] == 'actif'): ?>
-                                                <button class="text-red-600 hover:text-red-900">
+                                                <button onclick="lockClient(event)" class="text-red-600 hover:text-red-900" data-client='
+                                                <?= json_encode(["id" => $client["id"]]); ?>'>
                                                     <i data-lucide="lock" class="w-5 h-5"></i>
                                                 </button>
                                             <?php elseif ($client['status'] == 'en attente' || $client['status'] == 'inactif'): ?>
-                                                <button class="text-green-600 hover:text-green-900">
+                                                <button onclick="activateClient(event)" class="text-green-600 hover:text-green-900"
+                                                    data-client='<?= json_encode(["id" => $client["id"]]); ?>'>
                                                     <i data-lucide="check-circle" class="w-5 h-5"></i>
                                                 </button>
                                             <?php endif ?>
@@ -181,7 +184,7 @@
 
                                 <!-- Modal Body -->
                                 <div class="p-6">
-                                    <form id="addClientForm" class="space-y-6" method="post" action="./add">
+                                    <form id="addClientForm" class="space-y-6" method="post">
                                         <!-- Informations personnelles -->
                                         <div>
                                             <h4 class="text-base font-medium text-gray-900 mb-4">Informations personnelles</h4>
@@ -289,7 +292,6 @@
                                     </button>
                                     <button
                                         id="AddClientButton"
-                                        onclick="submitAddClientForm()"
                                         class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                                         Créer le compte
                                     </button>
