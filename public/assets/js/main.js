@@ -1,4 +1,4 @@
-const accountConfig = document.getElementById('addClientForm').lastElementChild;
+
 lucide.createIcons();
 // Toggle Sidebar Mobile
 function toggleSidebar() {
@@ -57,6 +57,10 @@ document.addEventListener('click', function (event) {
         document.getElementById('profileChevron').classList.remove('rotate-180');
     }
 });
+
+
+
+const accountConfig = document.getElementById('addClientForm').lastElementChild;
 function toggleAddClientModal(isEdit = false, event) {
     const modal = document.getElementById('addClientModal');
     modal.classList.toggle('hidden');
@@ -65,11 +69,11 @@ function toggleAddClientModal(isEdit = false, event) {
         const button = event.currentTarget;
         const clientData = JSON.parse(button.dataset.client)
         document.getElementById('ModalTitle').innerText = 'Modifier le client';
-        form.setAttribute("action","/clients/edit")
+        form.setAttribute("action", "/clients/edit")
         document.getElementById('AddClientButton').innerText = 'Confirmer';
 
         document.getElementById('AddClientButton').removeEventListener("click", submitAddClientForm);
-        document.getElementById('AddClientButton').addEventListener("click", (event)=>submitEditClientForm(event));
+        document.getElementById('AddClientButton').addEventListener("click", (event) => submitEditClientForm(event));
         // fill the inputs from the client information
         let input_id_hidden = document.createElement("input");
         input_id_hidden.setAttribute("type", "text");
@@ -128,5 +132,139 @@ function submitEditClientForm(event) {
         showConfirmButton: false
     });
     form.submit();
-    toggleAddClientModal(true,event);
+    toggleAddClientModal(true, event);
+}
+
+async function lockClient(event) {
+    try {
+        const client_id = JSON.parse(event.currentTarget.dataset.client).id;
+        const response = await fetch("http://localhost:8000/clients/lock", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: client_id
+            }),
+        });
+
+        if (response.ok) {
+            // Show success message
+            await Swal.fire({
+                title: "Parfait!",
+                text: "Client Verrouillé",
+                icon: "success",
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+
+            // Refresh page content
+            window.location.href = "http://localhost:8000/clients";
+        } else {
+            // Show error message
+            await Swal.fire({
+                title: "Erreur!",
+                text: "Échec du verrouillage du client",
+                icon: "error",
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+        }
+    } catch (error) {
+        console.error("Error locking client:", error);
+        await Swal.fire({
+            title: "Erreur!",
+            text: "Une erreur s'est produite",
+            icon: "error",
+            timer: 2000,
+            timerProgressBar: true,
+            showConfirmButton: false
+        });
+    }
+}
+
+async function activateClient(event) {
+    try {
+        const client_id = JSON.parse(event.currentTarget.dataset.client).id;
+        const response = await fetch("http://localhost:8000/clients/activate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: client_id
+            }),
+        });
+
+        if (response.ok) {
+            // Show success message
+            await Swal.fire({
+                title: "Parfait!",
+                text: "Client Activé",
+                icon: "success",
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+
+            // Refresh page content
+            window.location.href = "http://localhost:8000/clients";
+        } else {
+            // Show error message
+            await Swal.fire({
+                title: "Erreur!",
+                text: "Échec du Devrouillage du client",
+                icon: "error",
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false
+            });
+        }
+    } catch (error) {
+        console.error("Error locking client:", error);
+        await Swal.fire({
+            title: "Erreur!",
+            text: "Une erreur s'est produite",
+            icon: "error",
+            timer: 2000,
+            timerProgressBar: true,
+            showConfirmButton: false
+        });
+    }
+}
+
+// Accounts functions 
+
+// Fonction pour afficher/masquer le modal
+function toggleAccountActionsModal() {
+    const modal = document.getElementById('accountActionsModal');
+    modal.classList.toggle('hidden');
+}
+
+// Fonction pour gérer l'affichage des champs selon le type de compte
+function toggleSavingsFields(accountType) {
+    const decouvertField = document.getElementById('decouvertField');
+    const tauxInteretField = document.getElementById('tauxInteretField');
+
+    if (accountType === 'epargne') {
+        decouvertField.classList.add('hidden');
+        tauxInteretField.classList.remove('hidden');
+    } else {
+        decouvertField.classList.remove('hidden');
+        tauxInteretField.classList.add('hidden');
+    }
+}
+
+// Fonction pour soumettre le formulaire
+function submitAccountForm() {
+    const form = document.getElementById('accountForm');
+    if (form.checkValidity()) {
+        // Traitement du formulaire ici
+        alert('Compte créé avec succès !');
+        toggleAccountActionsModal();
+    } else {
+        form.reportValidity();
+    }
 }

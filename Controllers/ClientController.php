@@ -20,22 +20,23 @@ class ClientController extends BaseController
         foreach ($clients as &$client) {
             $accounts = $this->accountModel->getAccounts($client['id']);
 
-        if (!isset($_SESSION['admin'])) {
-            header('Location: /');
-            exit();
-        }
-        $clients = $this->userModel->getClients();
-        foreach ($clients as &$client) {
-            $accounts = $this->userModel->getAccounts($client['id']);
+            if (!isset($_SESSION['admin'])) {
+                header('Location: /');
+                exit();
+            }
+            $clients = $this->userModel->getClients();
+            foreach ($clients as &$client) {
+                $accounts = $this->accountModel->getAccounts($client['id']);
 
-            $client['accounts'] = $accounts;
-            $lastActivity = $this->userModel->getLastActivity($client['id']);
-            $client['last_activity'] = $lastActivity;
+                $client['accounts'] = $accounts;
+                $lastActivity = $this->userModel->getLastActivity($client['id']);
+                $client['last_activity'] = $lastActivity;
+            }
+            $this->render('admin/clients', [
+                'title' => 'Clients',
+                'clients' => $clients
+            ]);
         }
-        $this->render('admin/clients', [
-            'title' => 'Clients',
-            'clients' => $clients
-        ]);
     }
 
     public function add()
@@ -84,6 +85,25 @@ class ClientController extends BaseController
         }
     }
 
+    public function lock(){
+        header("Content-Type: application/json; charset=UTF-8");
+        $client = json_decode(file_get_contents("php://input"));
+        $id = $client->id;
+
+        if($this->userModel->lock($id)){
+            $this->index();
+        };
+    }
+
+    public function activate(){
+        header("Content-Type: application/json; charset=UTF-8");
+        $client = json_decode(file_get_contents("php://input"));
+        $id = $client->id;
+
+        if($this->userModel->activate($id)){
+            $this->index();
+        };
+    }
     public function showProfile()
     {
         if (!isset($_SESSION['user'])) {
