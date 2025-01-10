@@ -11,7 +11,7 @@
             <h1 class="text-2xl font-bold tracking-tight animate-fade-in">BANKATI</h1>
         </div>
         <nav class="flex-1 mt-6 space-y-2">
-            <a href="index.html" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
+            <a href="/user/dashboard" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
                 <i data-lucide="wallet" class="w-5 h-5"></i>
                 <span>Tableau de bord</span>
             </a>
@@ -125,7 +125,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Compte</label>
-                                <select class="w-full rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500">
+                                <select id="comptes" class="w-full rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                                     <option>Tous les comptes</option>
                                     <option>Compte Courant</option>
                                     <option>Compte Épargne</option>
@@ -135,7 +135,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Période</label>
                                 <select class="w-full rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500">
-                                    <option>7 derniers jours</option>
+                                    <option>all</option>
                                     <option>30 derniers jours</option>
                                     <option>3 derniers mois</option>
                                     <option>12 derniers mois</option>
@@ -195,10 +195,9 @@
                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Montant</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-200">
+                            <tbody class="divide-y divide-gray-200" id="myTable">
                                 <?php foreach ($transactions as $transaction): ?>
-                                    <!-- <?php var_dump($transaction);
-                                            ?> -->
+
                                     <tr class="hover:bg-gray-50 transition-colors">
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><?= $transaction["created_at"] ?></td>
                                         <td class="px-6 py-4">

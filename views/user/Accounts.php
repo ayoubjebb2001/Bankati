@@ -40,7 +40,7 @@
             <h1 class="text-2xl font-bold tracking-tight animate-fade-in">BANKATI</h1>
         </div>
         <nav class="mt-6">
-            <a href="index.html" class="nav-link flex items-center w-full p-4 space-x-3  hover:bg-blue-600/30">
+            <a href="/user/dashboard" class="nav-link flex items-center w-full p-4 space-x-3  hover:bg-blue-600/30">
                 <i data-lucide="wallet" class="w-5 h-5"></i>
                 <span>Tableau de bord</span>
             </a>
@@ -126,13 +126,29 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
-                            <a href="/user/myAccounts/depots?id=<?= $account['id'] ?>" class="group flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg transition-all duration-200 hover:bg-blue-600 hover:text-white">
-                                <i data-lucide="plus-circle" class="w-5 h-5 mr-2 transition-transform duration-200 group-hover:rotate-90"></i>
-                                Alimenter
+                            <?php
+                            if ($account["account_status"] != "actif") {
+                                echo '<a href="/user/myAccounts/depots?id=' . $account['id'] . '" class="group hidden flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg transition-all duration-200 hover:bg-blue-600 hover:text-white">';
+                            } else {
+                                echo '<a href="/user/myAccounts/depots?id=' . $account['id'] . '" class="group flex items-center justify-center p-3 text-blue-600 border border-blue-600 rounded-lg transition-all duration-200 hover:bg-blue-600 hover:text-white">';
+                            }
+
+                            ?>
+                            <i data-lucide="plus-circle" class="w-5 h-5 mr-2 transition-transform duration-200 group-hover:rotate-90"></i>
+                            Alimenter
                             </a>
-                            <a href="/user/myAccounts/retrait?id=<?= $account['id'] ?>" class="group flex items-center justify-center p-3 text-purple-600 border border-purple-600 rounded-lg transition-all duration-200 hover:bg-purple-600 hover:text-white">
-                                <i data-lucide="download" class="w-5 h-5 mr-2 transition-transform duration-200 group-hover:translate-y-1"></i>
-                                Relevé
+                            <?php
+                            if ($account["account_status"] != "actif") {
+                                echo '<a href="/user/myAccounts/retrait?id=' . $account['id'] . '" class="group hidden flex items-center justify-center p-3 text-purple-600 border border-purple-600 rounded-lg transition-all duration-200 hover:bg-purple-600 hover:text-white">';
+                            } else if ($account["account_status"] == "actif" && $account["account_type"] == "courant") {
+                                echo '<a href="/user/myAccounts/retrait?id=' . $account['id'] . '" class="group flex items-center justify-center p-3 text-purple-600 border border-purple-600 rounded-lg transition-all duration-200 hover:bg-purple-600 hover:text-white">';
+                            } else {
+                                echo '<a href="/user/myAccounts/retrait?id=' . $account['id'] . '" class="group hidden flex items-center justify-center p-3 text-purple-600 border border-purple-600 rounded-lg transition-all duration-200 hover:bg-purple-600 hover:text-white">';
+                            }
+
+                            ?>
+                            <i data-lucide="download" class="w-5 h-5 mr-2 transition-transform duration-200 group-hover:translate-y-1"></i>
+                            Relevé
                             </a>
                         </div>
 

@@ -81,6 +81,11 @@ class Account extends Db
         $account = $clients->fetchAll(PDO::FETCH_ASSOC);
         return $account;
     }
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
+    }
 
     public function getAll()
     {

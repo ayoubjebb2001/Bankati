@@ -13,6 +13,12 @@ class Transaction extends Db
         $modify->execute([$amount, intval($id)]);
         return $modify;
     }
+    public function MoneyTransactionExtract($id, $money)
+    {
+        $q = "INSERT INTO transactions(account_id,transaction_type,amount) VALUES(?,'retrait',?)";
+        $moneyy = $this->conn->prepare($q);
+        return $moneyy->execute([$id, $money]);
+    }
     public function virement($sender, $reciever, $money)
     {
         $this->conn->beginTransaction();
@@ -34,11 +40,23 @@ class Transaction extends Db
         }
         // $q="UPDATE accounts SET "
     }
+    public function virementTransaction($sender, $reciever, $money)
+    {
+        $q = "INSERT INTO transactions(account_id,transaction_type,amount,beneficiary_account_id) VALUES(?,'transfert',?,?)";
+        $moneyy = $this->conn->prepare($q);
+        return $moneyy->execute([$sender, $money, $reciever]);
+    }
     public function addMoney($money, $id)
     {
         $q = "UPDATE accounts SET balance = balance+? WHERE id= ?";
         $addMoney = $this->conn->prepare($q);
         return $addMoney->execute([$money, $id]);
+    }
+    public function MoneyTransaction($id, $money)
+    {
+        $q = "INSERT INTO transactions(account_id,transaction_type,amount) VALUES(?,'depot',?)";
+        $moneyy = $this->conn->prepare($q);
+        return $moneyy->execute([$id, $money]);
     }
     public function getLastVirements($id)
     {
@@ -69,7 +87,7 @@ class Transaction extends Db
     }
     public function getAllTransactions($id)
     {
-        $q = "SELECT * FROM transactions JOIN accounts JOIN users WHERE transactions.account_id = accounts.id AND accounts.user_id = users.id 
+        $q = "SELECT account_id,transactions.created_at,amount,transaction_type,beneficiary_account_id FROM transactions JOIN accounts JOIN users WHERE transactions.account_id = accounts.id AND accounts.user_id = users.id 
         AND users.id = ? ";
         $getLastTR = $this->conn->prepare($q);
         $getLastTR->execute([$id]);
