@@ -9,7 +9,7 @@
             <h1 class="text-2xl font-bold tracking-tight animate-fade-in">BANKATI</h1>
         </div>
         <nav class="mt-6 space-y-2">
-            <a href="index.html" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
+            <a href="/user/dashboard" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
                 <i data-lucide="wallet" class="w-5 h-5"></i>
                 <span>Tableau de bord</span>
             </a>

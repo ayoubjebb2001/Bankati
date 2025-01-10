@@ -170,6 +170,7 @@ class ClientController extends BaseController
             $money = $_POST["money"];
             if ($money >= 0.01) {
                 $this->transactionModel->addMoney($money, $id);
+                $this->transactionModel->MoneyTransaction($id, $money);
                 header("Location: /user/myAccounts");
             }
         }
@@ -220,12 +221,15 @@ class ClientController extends BaseController
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["vers"])) {
             $sender = $_POST["first"];
+            $id = $_SESSION['user']['id'];
             $reciever = $_POST["second"];
             $money = $_POST["montant"];
             if ($sender == "al" || $sender == "all2" || $reciever == "al" || $reciever == "all2") {
                 header("Location: /user/virements");
             } else {
                 $this->transactionModel->virement($sender, $reciever, $money);
+                // $this->transactionModel->MoneyTransactionExtract($id, $money);
+                $this->transactionModel->virementTransaction($sender, $reciever, $money);
                 header("Location: /user/virements?message=the money has converted successfuly");
             }
         }
@@ -241,5 +245,12 @@ class ClientController extends BaseController
         $difference = $allDepots[0]["total"] - $allRetraits[0]["total"];
         $allTrans = $this->transactionModel->getAllTransactions($id);
         $this->render('user/historique', ["id" => $id, "difference" => $difference, "transactions" => $allTrans, "users" => $users, "accounts" => $accounts, "transfers" => $transfers, "totalDepot" => $allDepots, "totalRetraits" => $allRetraits]);
+    }
+    public function dashboard()
+    {
+        $id = $_SESSION['user']['id'];
+        $users = $this->userModel->getUser($id);
+        $accounts = $this->accountModel->getAccounts($id);
+        $this->render('user/dashboard', ["users" => $users, "accounts" => $accounts]);
     }
 }

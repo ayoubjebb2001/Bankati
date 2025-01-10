@@ -3,9 +3,11 @@
 class AuthController extends BaseController
 {
     private $userModel;
+    private $accountModel;
     public function __construct()
     {
         $this->userModel = new User();
+        $this->accountModel = new Account();
     }
     public function showLogin()
     {
@@ -40,7 +42,7 @@ class AuthController extends BaseController
         } else {
             if ($password == $user['password']) {
                 $_SESSION['user'] = $user;
-                header('Location: /user/profile');
+                header('Location: /user/dashboard');
             } else {
                 $this->render('login', [
                     'title' => 'Login',
@@ -53,5 +55,10 @@ class AuthController extends BaseController
                 ]);
             }
         }
+    }
+    public function logout()
+    {
+        $this->accountModel->logout();
+        $this->render("login");
     }
 }

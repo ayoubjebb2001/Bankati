@@ -73,7 +73,7 @@ class Account extends Db
         $accounts = $modify->fetchAll(PDO::FETCH_ASSOC);
         return $accounts;
     }
-        public function currenAccount($id, $compteID)
+    public function currenAccount($id, $compteID)
     {
         $q = "SELECT * FROM accounts WHERE user_id = ? AND id =?";
         $clients = $this->conn->prepare($q);
@@ -81,5 +81,9 @@ class Account extends Db
         $account = $clients->fetchAll(PDO::FETCH_ASSOC);
         return $account;
     }
-
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
+    }
 }

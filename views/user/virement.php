@@ -52,24 +52,72 @@
             <h1 class="text-2xl font-bold tracking-tight animate-fade-in">BANKATI</h1>
         </div>
         <nav class="mt-6 space-y-2">
-            <a href="index.html" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
-                <i data-lucide="wallet" class="w-5 h-5"></i>
+            <a href="/user/dashboard" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
+                <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
                 <span>Tableau de bord</span>
             </a>
             <a href="/user/myAccounts" class="nav-link flex items-center w-full p-4 space-x-3  hover:bg-blue-600/30">
-                <i data-lucide="credit-card" class="w-5 h-5"></i>
+                <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
                 <span>Mes comptes</span>
             </a>
             <a href="/user/virements" class="nav-link flex items-center w-full p-4 space-x-3  bg-blue-600/50 backdrop-blur">
-                <i data-lucide="send" class="w-5 h-5"></i>
-                <span>Virements</span>
+                <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg> <span>Virements</span>
             </a>
             <a href="/user/historique" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
-                <i data-lucide="history" class="w-5 h-5"></i>
-                <span>Historique</span>
+                <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg> <span>Historique</span>
             </a>
             <a href="/user/profile" class="nav-link flex items-center w-full p-4 space-x-3 hover:bg-blue-600/30">
-                <i data-lucide="user" class="w-5 h-5"></i>
+                <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 12c2.28 0 4-1.72 4-4s-1.72-4-4-4-4 1.72-4 4 1.72 4 4 4zm0 2c-3.31 0-6 2.69-6 6h12c0-3.31-2.69-6-6-6z" />
+                </svg>
                 <span>Profil</span>
             </a>
         </nav>
