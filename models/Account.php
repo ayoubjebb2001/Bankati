@@ -73,7 +73,7 @@ class Account extends Db
         $accounts = $modify->fetchAll(PDO::FETCH_ASSOC);
         return $accounts;
     }
-        public function currenAccount($id, $compteID)
+    public function currenAccount($id, $compteID)
     {
         $q = "SELECT * FROM accounts WHERE user_id = ? AND id =?";
         $clients = $this->conn->prepare($q);
@@ -82,4 +82,50 @@ class Account extends Db
         return $account;
     }
 
+    public function getAll()
+    {
+        $q = "SELECT accounts.id as account_id,profile_pic,email,name,account_type,balance,account_status FROM accounts JOIN users WHERE accounts.user_id = users.id";
+        $result = $this->conn->query($q, PDO::FETCH_ASSOC);
+        $accounts = $result->fetchAll();
+        return $accounts;
+    }
+
+    public function getActiveAccounts()
+    {
+        $q = "SELECT COUNT(*) as count FROM accounts WHERE account_status = 'actif'";
+        $result = $this->conn->query($q);
+        $accounts = $result->fetchColumn(0);
+        return $accounts;
+    }
+
+    public function getActivePercentage()
+    {
+        $q = "SELECT COUNT(*) FROM accounts WHERE account_status = 'actif' AND 
+        ( MONTH(created_at) < MONTH(CURDATE())  AND YEAR(created_at) <= YEAR(CURDATE()) ) OR ( MONTH(created_at) >= MONTH(CURDATE())  AND YEAR(created_at) < YEAR(CURDATE()) )";
+        $result = $this->conn->query($q);
+        $activeAccounts = $result->fetchColumn(0);
+
+        $q = "SELECT COUNT(*) FROM accounts WHERE account_status = 'actif' ";
+        $result = $this->conn->query($q);
+        $accounts = $result->fetchColumn(0);
+
+        return round(($accounts-$activeAccounts)*100/$accounts,2);
+    }
+
+    public function getLastActivity($accountId){
+        $q = "SELECT t.created_at,t.transaction_type as activity FROM transactions t JOIN accounts a WHERE t.account_id = a.id AND a.id = ? ORDER BY t.created_at DESC LIMIT 1";
+        $stmt = $this->conn->prepare($q);
+        $result = $stmt->execute([$accountId]);
+        $last_activity = $stmt->fetch(PDO::FETCH_NAMED);
+
+        var_dump($last_activity);
+
+        $q = "SELECT t.created_at,t.transaction_type as activity FROM transactions t JOIN accounts a WHERE t.beneficiary_account_id = a.id AND a.id = ? ORDER BY t.created_at DESC LIMIT 1";
+        $stmt = $this->conn->prepare($q);
+        $result = $stmt->execute([$accountId]);
+        $last_activity_passive = $stmt->fetch(PDO::FETCH_NAMED);
+
+        $q = "SELECT created_at, ";
+        return  (strtotime($last_activity['created_at'])  > strtotime($last_activity_passive['created_at']))? $last_activity:$last_activity_passive;
+    }
 }

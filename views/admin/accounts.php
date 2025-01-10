@@ -31,13 +31,17 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-gray-500">Comptes Actifs</p>
-                            <p class="text-2xl font-bold text-gray-900">2,847</p>
+                            <p class="text-2xl font-bold text-gray-900"> <?= $activeAccounts; ?> </p>
                         </div>
                         <div class="bg-green-100 p-3 rounded-lg">
                             <i data-lucide="check-circle" class="w-6 h-6 text-green-600"></i>
                         </div>
                     </div>
-                    <p class="text-sm text-green-600 mt-2">+3.2% ce mois</p>
+                    <?php if ($activePercent > 0): ?>
+                        <p class="text-sm text-green-600 mt-2"> <?= $activePercent . '% '; ?> ce mois</p>
+                    <?php else: ?>
+                        <p class="text-sm text-red-600 mt-2"> <?= $activePercent . '% '; ?> ce mois</p>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -127,73 +131,64 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         <!-- Account 1 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">FR76 1234 5678 9012</div>
-                                <div class="text-sm text-gray-500">#ACC-001</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <img src="/api/placeholder/40/40" alt="" class="h-10 w-10 rounded-full">
+                        <?php foreach ($accounts as $account): ?>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900"> <?= $account['account_id'] ?> </div>
+                                    <div class="text-sm text-gray-500">#ACC-001</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <img src="/api/placeholder/40/40" alt="" class="h-10 w-10 rounded-full">
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900"> <?= $account['name'] ?> </div>
+                                            <div class="text-sm text-gray-500"> <?= $account['email'] ?> </div>
+                                        </div>
                                     </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Thomas Robert</div>
-                                        <div class="text-sm text-gray-500">thomas@email.com</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">Compte <?= $account['account_type'] ?></div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900"><?= $account['balance'] ?></div>
+                                    <div class="text-xs text-green-600">+350€ ce mois</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <?php if ($account['account_status'] == 'actif'): ?>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Actif
+                                        </span>
+                                    <?php elseif ($account['account_status'] == 'bloqué'): ?>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                            Bloqué
+                                        </span>
+                                    <?php elseif ($account['account_status'] == 'en attente'): ?>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            En attente
+                                        </span>
+                                    <?php endif ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900"></div>
+                                    <div class="text-sm text-gray-500">Virement sortant</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-900">
+                                            <i data-lucide="eye" class="w-5 h-5"></i>
+                                        </button>
+                                        <button class="text-gray-600 hover:text-gray-900">
+                                            <i data-lucide="edit" class="w-5 h-5"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-900">
+                                            <i data-lucide="lock" class="w-5 h-5"></i>
+                                        </button>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Compte Courant</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">2,450.50 €</div>
-                                <div class="text-xs text-green-600">+350€ ce mois</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Actif
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Il y a 2 heures</div>
-                                <div class="text-sm text-gray-500">Virement sortant</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex space-x-2">
-                                    <button class="text-blue-600 hover:text-blue-900">
-                                        <i data-lucide="eye" class="w-5 h-5"></i>
-                                    </button>
-                                    <button class="text-gray-600 hover:text-gray-900">
-                                        <i data-lucide="edit" class="w-5 h-5"></i>
-                                    </button>
-                                    <button class="text-red-600 hover:text-red-900">
-                                        <i data-lucide="lock" class="w-5 h-5"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <!-- Account 2 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">FR76 9876 5432 1098</div>
-                                <div class="text-sm text-gray-500">#ACC-002</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <img src="/api/placeholder/40/40" alt="" class="h-10 w-10 rounded-full">
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Marie Dubois</div>
-                                        <div class="text-sm text-gray-500">marie@email.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray"></div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
