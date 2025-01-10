@@ -72,7 +72,7 @@ class User extends Db
         $q = "SELECT * FROM users";
         $clients = $this->conn->prepare($q);
         $clients->execute();
-        $allClients = $clients->fetchAll(PDO::FETCH_ASSOC);
+        $allClients = $clients->fetchAll(PDO::FETCH_NAMED);
         return $allClients;
     }
 

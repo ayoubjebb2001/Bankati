@@ -172,7 +172,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900"></div>
-                                    <div class="text-sm text-gray-500">Virement sortant</div>
+                                    <div class="text-sm text-gray-500"> <?= $account['last_activity']['activity'] ?> </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex space-x-2">
@@ -334,4 +334,11 @@
 <!-- Overlay pour mobile -->
 <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-50 lg:hidden hidden z-20">
 </div>
-<?php require_once 'partials/footer.php'; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/main.js"></script>
+<script defer src="../assets/js/accounts.js"></script>
+<!-- Scripts -->
+</body>
+
+</html>
