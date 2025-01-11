@@ -2,9 +2,10 @@
 // Accounts functions 
 
 // Fonction pour afficher/masquer le modal
-function toggleAccountActionsModal() {
+function toggleAccountActionsModal(isEdit = false) {
     const modal = document.getElementById('accountActionsModal');
     modal.classList.toggle('hidden');
+
 }
 
 // Fonction pour gérer l'affichage des champs selon le type de compte
@@ -24,9 +25,38 @@ function toggleSavingsFields(accountType) {
 // Fonction pour soumettre le formulaire
 function submitAccountForm() {
     const form = document.getElementById('accountForm');
+    const data = {
+        "name": form['client_name_form'].options[form['client_name_form'].selectedIndex].getAttribute('data-client'),
+        "account": form['account_type_form'].value
+    }
     if (form.checkValidity()) {
-        // Traitement du formulaire ici
-        alert('Compte créé avec succès !');
+        Swal.fire({
+            icon : 'question',
+            title: 'Do you want to Confim the Action?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+          }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Parfait!",
+                    html: "Compte <span id = 'account' class=\"px-5 inline-flex leading-5 font-semibold rounded-lg dark:bg-sky-500 dark:text-white-800\"> </span> Configuré au client <b class=\"text-sky-500 dark:text-sky-400\"> </b>",
+                    icon: "success",
+                    didOpen: () => {
+                        Swal.getPopup().querySelector("span#account").textContent = `${data.account}`;
+                        Swal.getPopup().querySelector("b").textContent = `${data.name}`;
+                    },
+                    showConfirmButton: true
+                }).then(()=>{
+                    form.submit();
+                });
+            } else if (result.isDenied) {
+              Swal.fire('Changes are not saved', '', 'info')
+            }
+          })
+
+        // form.submit();
         toggleAccountActionsModal();
     } else {
         form.reportValidity();
@@ -36,19 +66,39 @@ function submitAccountForm() {
 async function getClients() {
     try {
         const response = await fetch("http://localhost:8000/fetchClients");
-        console.log(response);
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
-        const json = await response.json();
-        console.log(json);
+        return await response.json();
     } catch (error) {
         console.error(error.message);
     }
 }
 
 const form = document.getElementById("accountForm");
+const render = (clients) => {
+    return clients.map(({ id, name }) =>
+        form[0].add(new Option(`${name} - #CLT${(id).toString().padStart(4, '0')}`, `${(id).toString()}`))
+    )
+};
+
+
 
 form[0].addEventListener("click", () => {
-    getClients();
+    // Remove existant options 
+    while (form[0].options.length > 0) {
+        form[0].remove(0);
+    }
+    (async () => {
+        const clients = await getClients();
+        render(clients);
+        for (let index = 0; index < clients.length; index++) {
+            form[0].options[index].setAttribute("data-client", clients[index].name);
+
+        }
+
+    })();
+
+}, {
+    once: true
 })

@@ -209,12 +209,12 @@
 
             <!-- Modal Body -->
             <div class="p-6">
-                <form id="accountForm" class="space-y-6">
+                <form id="accountForm" class="space-y-6" method="post" action="/accounts/add">
                     <!-- Sélection du client -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Client titulaire *</label>
                         <select required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" id="client_name_form">
                             <option value="">Sélectionner un client</option>
                             <option value="1">Thomas Robert - #CLT001</option>
                             <option value="2">Marie Dubois - #CLT002</option>
@@ -227,7 +227,7 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Type de compte *</label>
                             <select required
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                onchange="toggleSavingsFields(this.value)">
+                                onchange="toggleSavingsFields(this.value)" id="account_type_form">
                                 <option value="">Sélectionner</option>
                                 <option value="courant">Compte Courant</option>
                                 <option value="epargne">Compte Épargne</option>
@@ -257,7 +257,7 @@
                                         class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <span class="text-gray-500">€</span>
                                     </div>
-                                    <input type="number" required min="0"
+                                    <input type="number" min="0"
                                         class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         placeholder="1000">
                                 </div>
