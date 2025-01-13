@@ -10,9 +10,8 @@ class Account extends Db
     public function create($accountType, $user_id)
     {
         $q = "INSERT INTO accounts (account_type, user_id) VALUES (?, ?)";
-        $create = $this->conn->prepare($q);
-        $create->execute([$accountType, $user_id]);
-        return $create;
+        $stmt = $this->conn->prepare($q);
+        return $stmt->execute([$accountType, $user_id]);
     }
 
     public function makeWithdrawal($accountId, $amount)
@@ -84,7 +83,7 @@ class Account extends Db
 
     public function getAll()
     {
-        $q = "SELECT accounts.id as account_id,profile_pic,email,name,account_type,balance,account_status FROM accounts JOIN users WHERE accounts.user_id = users.id";
+        $q = "SELECT accounts.id as account_id,profile_pic,email,name,account_type,balance,account_status,users.id FROM accounts JOIN users WHERE accounts.user_id = users.id";
         $result = $this->conn->query($q, PDO::FETCH_ASSOC);
         $accounts = $result->fetchAll();
         return $accounts;
@@ -139,5 +138,25 @@ class Account extends Db
             return  (strtotime($last_outgoing['created_at'])  > strtotime($last_incoming['created_at']))? $last_outgoing:$last_incoming;
         }
 
+    }
+
+    public function getBy($balance,$status,$type,$account){
+        $q = "SELECT accounts.id as account_id,email,name,account_type,balance,account_status FROM accounts JOIN users WHERE accounts.user_id = users.id";
+        if($balance !== "all"){
+            $q .= " AND accounts.balance $balance ";
+        }
+        if($status !== "all"){
+            $q .= " AND account_status = '$status' ";
+        }
+        if($type !== "all"){
+            $q .= " AND account_type = '{$type}'";
+        }   
+        if($account !== ""){
+            $q .= " AND (accounts.id LIKE '%$account%' OR users.name LIKE '%$account%')";
+        }
+
+        // return $q;
+        $result = $this->conn->query($q);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 }
