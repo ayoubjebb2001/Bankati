@@ -28,6 +28,10 @@ Route::post('/clients/lock', [ClientController::class, 'lock']);
 Route::post('/clients/activate', [ClientController::class, 'activate']);
 
 Route::get('/accounts', [AccountController::class, 'index']);
+Route::get('/fetchClients', [AccountController::class, 'getClients']);
+Route::post('/accounts/add', [AccountController::class, 'add']);
+Route::post('/accounts/filter', [AccountController::class, 'filter']);
+
 
 Route::get('/user/profile', [ClientController::class, 'showProfile']);
 Route::post('/user/profile/modifyprofile', [ClientController::class, 'modifyProfile']);

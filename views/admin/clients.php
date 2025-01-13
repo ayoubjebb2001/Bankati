@@ -303,7 +303,7 @@
                     <!-- Pagination -->
                     <div class="flex items-center justify-between mt-6">
                         <div class="text-sm text-gray-700">
-                            Affichage de 1 à 10 sur <?=count($clients)?> clients
+                            Affichage de 1 à 10 sur <?= count($clients) ?> clients
                         </div>
                         <div class="flex space-x-2">
                             <button class="px-3 py-1 border rounded text-gray-600 hover:bg-gray-50">
@@ -328,4 +328,15 @@
         </div>
     </div>
 </div>
-<?php require_once 'partials/footer.php'; ?>
+<!-- Overlay pour mobile -->
+<div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-50 lg:hidden hidden z-20">
+</div>
+
+<!-- Scripts -->
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/clients.js"> </script>
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>

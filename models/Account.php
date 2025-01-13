@@ -10,9 +10,8 @@ class Account extends Db
     public function create($accountType, $user_id)
     {
         $q = "INSERT INTO accounts (account_type, user_id) VALUES (?, ?)";
-        $create = $this->conn->prepare($q);
-        $create->execute([$accountType, $user_id]);
-        return $create;
+        $stmt = $this->conn->prepare($q);
+        return $stmt->execute([$accountType, $user_id]);
     }
 
     public function makeWithdrawal($accountId, $amount)
@@ -89,7 +88,7 @@ class Account extends Db
 
     public function getAll()
     {
-        $q = "SELECT accounts.id as account_id,profile_pic,email,name,account_type,balance,account_status FROM accounts JOIN users WHERE accounts.user_id = users.id";
+        $q = "SELECT accounts.id as account_id,profile_pic,email,name,account_type,balance,account_status,users.id FROM accounts JOIN users WHERE accounts.user_id = users.id";
         $result = $this->conn->query($q, PDO::FETCH_ASSOC);
         $accounts = $result->fetchAll();
         return $accounts;
@@ -121,16 +120,48 @@ class Account extends Db
         $q = "SELECT t.created_at,t.transaction_type as activity FROM transactions t JOIN accounts a WHERE t.account_id = a.id AND a.id = ? ORDER BY t.created_at DESC LIMIT 1";
         $stmt = $this->conn->prepare($q);
         $result = $stmt->execute([$accountId]);
-        $last_activity = $stmt->fetch(PDO::FETCH_NAMED);
+        $last_outgoing = $stmt->fetch(PDO::FETCH_NAMED);
 
-        var_dump($last_activity);
 
-        $q = "SELECT t.created_at,t.transaction_type as activity FROM transactions t JOIN accounts a WHERE t.beneficiary_account_id = a.id AND a.id = ? ORDER BY t.created_at DESC LIMIT 1";
+        $q = "SELECT t.created_at,'virement entrant' as activity FROM transactions t JOIN accounts a WHERE t.beneficiary_account_id = a.id AND a.id = ? ORDER BY t.created_at DESC LIMIT 1";
         $stmt = $this->conn->prepare($q);
         $result = $stmt->execute([$accountId]);
-        $last_activity_passive = $stmt->fetch(PDO::FETCH_NAMED);
+        $last_incoming = $stmt->fetch(PDO::FETCH_NAMED);
 
-        $q = "SELECT created_at, ";
-        return  (strtotime($last_activity['created_at'])  > strtotime($last_activity_passive['created_at']))? $last_activity:$last_activity_passive;
+        $q = "SELECT created_at, 'creation de compte' as activity FROM accounts WHERE id = ?  ";
+        $stmt = $this->conn->prepare($q);
+        $result = $stmt->execute([$accountId]);
+        $account_creation = $stmt->fetch(PDO::FETCH_NAMED);
+
+        if(!$last_incoming && !$last_outgoing){
+            return $account_creation;
+        }elseif(!$last_outgoing){
+            return $last_incoming;
+        }elseif(!$last_incoming && $last_outgoing){
+            return $last_outgoing;
+        }else{
+            return  (strtotime($last_outgoing['created_at'])  > strtotime($last_incoming['created_at']))? $last_outgoing:$last_incoming;
+        }
+
+    }
+
+    public function getBy($balance,$status,$type,$account){
+        $q = "SELECT accounts.id as account_id,email,name,account_type,balance,account_status FROM accounts JOIN users WHERE accounts.user_id = users.id";
+        if($balance !== "all"){
+            $q .= " AND accounts.balance $balance ";
+        }
+        if($status !== "all"){
+            $q .= " AND account_status = '$status' ";
+        }
+        if($type !== "all"){
+            $q .= " AND account_type = '{$type}'";
+        }   
+        if($account !== ""){
+            $q .= " AND (accounts.id LIKE '%$account%' OR users.name LIKE '%$account%')";
+        }
+
+        // return $q;
+        $result = $this->conn->query($q);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 }

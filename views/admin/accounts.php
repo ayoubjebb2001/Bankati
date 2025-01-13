@@ -48,11 +48,11 @@
             <!-- Filters existant -->
             <div class="bg-white rounded-lg shadow p-6 mb-6">
                 <!-- ... Filtres existants ... -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div id="filter" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Rechercher</label>
                         <div class="relative">
-                            <input type="text" placeholder="N° compte, nom client..."
+                            <input name="filter_account" type="text" placeholder="N° compte, nom client..."
                                 class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                             <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute left-3 top-2"></i>
                         </div>
@@ -60,34 +60,34 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Type de compte</label>
-                        <select
+                        <select name="filter_account_type"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option>Tous les types</option>
-                            <option>Compte Courant</option>
-                            <option>Compte Épargne</option>
-                            <option>Compte Joint</option>
+                            <option value="all">Tous les types</option>
+                            <option value="courant">Compte Courant</option>
+                            <option value="epargne">Compte Épargne</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Statut</label>
-                        <select
+                        <select name="filter_account_status"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option>Tous les statuts</option>
-                            <option>Actif</option>
-                            <option>En attente</option>
-                            <option>Bloqué</option>
+                            <option value="all">Tous les statuts</option>
+                            <option value="actif">Actif</option>
+                            <option value="en attente">En attente</option>
+                            <option value="bloqué">Bloqué</option>
+                            <option value="inactif">Inactif</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Solde</label>
-                        <select
+                        <select name="filter_account_balance"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                            <option>Tous les soldes</option>
-                            <option>Négatif</option>
-                            <option>0 - 1000€</option>
-                            <option>> 1000€</option>
+                            <option value="all">Tous les soldes</option>
+                            <option value="< 0">Négatif</option>
+                            <option value=" BETWEEN 0 AND 1000 ">0 - 1000€</option>
+                            <option value="> 1000"> > 1000€</option>
                         </select>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody id="table" class="bg-white divide-y divide-gray-200">
                         <!-- Account 1 -->
                         <?php foreach ($accounts as $account): ?>
                             <tr class="hover:bg-gray-50">
@@ -140,7 +140,7 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10">
-                                            <img src="/api/placeholder/40/40" alt="" class="h-10 w-10 rounded-full">
+                                            <img src="https://avatar.iran.liara.run/public/<?= $account['id']; ?>" alt="" class="h-10 w-10 rounded-full">
                                         </div>
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900"> <?= $account['name'] ?> </div>
@@ -172,7 +172,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900"></div>
-                                    <div class="text-sm text-gray-500">Virement sortant</div>
+                                    <div class="text-sm text-gray-500"> <?= $account['last_activity']['activity'] ?> </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex space-x-2">
@@ -214,7 +214,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Client titulaire *</label>
                         <select required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" name="name">
                             <option value="">Sélectionner un client</option>
                             <option value="1">Thomas Robert - #CLT001</option>
                             <option value="2">Marie Dubois - #CLT002</option>
@@ -227,7 +227,7 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Type de compte *</label>
                             <select required
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                onchange="toggleSavingsFields(this.value)">
+                                onchange="toggleSavingsFields(this.value)" name="account_type">
                                 <option value="">Sélectionner</option>
                                 <option value="courant">Compte Courant</option>
                                 <option value="epargne">Compte Épargne</option>
@@ -257,7 +257,7 @@
                                         class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <span class="text-gray-500">€</span>
                                     </div>
-                                    <input type="number" required min="0"
+                                    <input type="number" min="0"
                                         class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         placeholder="1000">
                                 </div>
@@ -334,4 +334,11 @@
 <!-- Overlay pour mobile -->
 <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black bg-opacity-50 lg:hidden hidden z-20">
 </div>
-<?php require_once 'partials/footer.php'; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/main.js"></script>
+<script async src="../assets/js/accounts.js"></script>
+<!-- Scripts -->
+</body>
+
+</html>
