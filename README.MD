@@ -5,14 +5,20 @@ BANKATI is a modern web-based banking management system built with PHP following
 
 ## Architecture
 The application follows the MVC (Model-View-Controller) design pattern:
-BANKATI/ 
-├── Controllers/ # Application logic & data flow control 
-├── Models/ # Database interactions & business logic 
-├── Views/ # User interface templates 
-├── config/ # Configuration files 
-├── core/ # Core framework files 
-└── public/ # Public assets & entry point
 
+BANKATI/
+├── Controllers/
+|   └── # Application logic & data flow control
+├── Models/ 
+|   └── # Database interactions & business logic
+├── Views/
+|   └── # User interface templates
+├── config/
+|   └── # Configuration files
+├── core/ 
+|   └── # Core framework files
+└── public/
+    └──# Public assets & entry point
 
 ## Key Features
 
