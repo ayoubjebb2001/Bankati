@@ -69,7 +69,7 @@ class User extends Db
     }
     public function getClients()
     {
-        $q = "SELECT id,name FROM users";
+        $q = "SELECT * FROM users";
         $clients = $this->conn->prepare($q);
         $clients->execute();
         $allClients = $clients->fetchAll(PDO::FETCH_NAMED);

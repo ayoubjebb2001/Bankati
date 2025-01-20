@@ -90,7 +90,7 @@
                                 <tr class="hover:bg-gray-50">
                                     <td class="p-3">
                                         <div class="flex items-center">
-                                            <img src="www.placeholder.co/40/40" alt="Thomas Robert" class="w-10 h-10 rounded-full">
+                                            <img src="https://avatar.iran.liara.run/public/<?=$client['id'];?>" alt="Thomas Robert" class="w-10 h-10 rounded-full">
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900" id="fullName"><?= $client['name'] ?></div>
                                                 <div id="client_id" class="text-sm text-gray-500">ID: #<?= 'CLT-' . date("YmdHi", strtotime($client['created_at'])) . $client['id'] ?> </div>
